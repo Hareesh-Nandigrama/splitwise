@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:splitwise/screens/authentication/login.dart';
 import 'firebase/auth.dart';
 
 Future<void> main() async {
@@ -48,16 +49,12 @@ class MyApp extends StatelessWidget {
           }
 
           //If user Not Signed In
-          return const MyHomePage(
-            title: 'ball',
-          );
+          return const LoginScreen();
         },
       ),
 
       routes: {
-        '/first': (context) => const MyHomePage(
-              title: 'apple',
-            ),
+        '/login': (context) => const LoginScreen(),
       },
 
 
