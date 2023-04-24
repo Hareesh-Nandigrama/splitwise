@@ -1,245 +1,107 @@
-import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:hexcolor/hexcolor.dart';
-import '../../widgets/fields/authentication/auth_button.dart';
 
-class SignUpScreen extends StatefulWidget {
-  const SignUpScreen({super.key});
+
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:splitwise/screens/authentication/welcome.dart';
+
+import '../../constants/colors.dart';
+import '../../firebase/auth.dart';
+import '../../widgets/fields/fields.dart';
+import 'login.dart';
+
+
+class SignInPage extends StatefulWidget {
+  static const String id = '/signin';
+  const SignInPage({Key? key}) : super(key: key);
 
   @override
-  State<SignUpScreen> createState() => _SignUpScreenState();
+  _SignInPageState createState() => _SignInPageState();
 }
 
-class _SignUpScreenState extends State<SignUpScreen> {
+class _SignInPageState extends State<SignInPage> {
 
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
-
-  String _errorMessage = "";
-
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _userController = TextEditingController();
+  bool isLoading = false;
 
   @override
   Widget build(BuildContext context) {
-    return  SafeArea(
-        child: Scaffold(
-          body: Center(
-            child: SafeArea(
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(30, 20, 30, 20),
-                child: Column(
-                  children: [
-                    Row(
-                      children: [
-                        GestureDetector(
-                          onTap: () {
-
-                          },
-                          child: const Icon(
-                            Icons.arrow_back,
-                            color: Colors.black,
-                          ),
-                        ),
-                        const SizedBox(
-                          width: 67,
-                        ),
-                        Text(
-                          "Sign Up",
-                          style: GoogleFonts.poppins(
-                            fontSize: 40,
-                            fontWeight: FontWeight.bold,
-                            color: HexColor("#4f4f4f"),
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 5,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(15, 0, 0, 20),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "User Type",
-                            style: GoogleFonts.poppins(
-                              fontSize: 16,
-                              color: HexColor("#8d8d8d"),
-                            ),
-                          ),
-                          // DropdownButton<String>(
-                          //   value: dropdownValue,
-                          //   icon: const Icon(Icons.arrow_drop_down),
-                          //   elevation: 16,
-                          //   style: GoogleFonts.poppins(
-                          //     fontSize: 15,
-                          //     color: HexColor("#8d8d8d"),
-                          //   ),
-                          //   isExpanded: true,
-                          //   underline: Container(
-                          //     height: 2,
-                          //     color: HexColor("#ffffff"),
-                          //   ),
-                          //   iconSize: 30,
-                          //   borderRadius: BorderRadius.circular(20),
-                          //   onChanged: (String? value) {
-                          //     setState(() {
-                          //       dropdownValue = value!;
-                          //       signUpController.setUserType(value);
-                          //     });
-                          //   },
-                          //   items: list.map<DropdownMenuItem<String>>((String value) {
-                          //     return DropdownMenuItem<String>(
-                          //       value: value,
-                          //       child: Text(value),
-                          //     );
-                          //   }).toList(),
-                          // ),
-                          const SizedBox(
-                            height: 1,
-                          ),
-                          Text(
-                            "Email",
-                            style: GoogleFonts.poppins(
-                              fontSize: 16,
-                              color: HexColor("#8d8d8d"),
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 5,
-                          ),
-                          TextField(
-                            controller: emailController,
-                            onChanged: (value) {
-                              // validateEmail(value);
-                              // signUpController.setEmail(value);
-                            },
-                            onSubmitted: (value) {
-                              // signUpController.setEmail(value);
-                            },
-                            cursorColor: HexColor("#4f4f4f"),
-                            decoration: InputDecoration(
-                              hintText: "hello@gmail.com",
-                              fillColor: HexColor("#f0f3f1"),
-                              contentPadding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
-                              hintStyle: GoogleFonts.poppins(
-                                fontSize: 15,
-                                color: HexColor("#8d8d8d"),
-                              ),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(30),
-                                borderSide: BorderSide.none,
-                              ),
-                              filled: true,
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.fromLTRB(8, 0, 0, 0),
-                            child: Text(
-                              _errorMessage,
-                              style: GoogleFonts.poppins(
-                                fontSize: 12,
-                                color: Colors.red,
-                              ),
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 5,
-                          ),
-                          Text(
-                            "Password",
-                            style: GoogleFonts.poppins(
-                              fontSize: 16,
-                              color: HexColor("#8d8d8d"),
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 5,
-                          ),
-                          TextField(
-                            onChanged: (value) {
-                              // signUpController.setPassword(value);
-                            },
-                            onSubmitted: (value) {
-                              // signUpController.setPassword(value);
-                            },
-                            obscureText: true,
-                            controller: passwordController,
-                            cursorColor: HexColor("#4f4f4f"),
-                            decoration: InputDecoration(
-                              hintText: "*************",
-                              fillColor: HexColor("#f0f3f1"),
-                              contentPadding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
-                              hintStyle: GoogleFonts.poppins(
-                                fontSize: 15,
-                                color: HexColor("#8d8d8d"),
-                              ),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(30),
-                                borderSide: BorderSide.none,
-                              ),
-                              filled: true,
-                              focusColor: HexColor("#44564a"),
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 5,
-                          ),
-                          MyButton(
-                              buttonText: 'Proceed',
-                              onPressed: () async {
-                                // if (signUpController.userType != null &&
-                                //     signUpController.email != null &&
-                                //     signUpController.password != null) {
-                                //   bool isRegistered =
-                                //   await signUpController.registerUser(
-                                //       signUpController.email.toString(),
-                                //       signUpController.password.toString());
-                                //   debugPrint(isRegistered.toString());
-                                //   if (isRegistered) {
-                                //     Get.snackbar("Success", "User Registered");
-                                //     flowController.setFlow(2);
-                                //   } else {
-                                //     Get.snackbar("Error", "Please fill all the fields");
-                                //   }
-                                // }
-                              }
-                              ),
-                          Padding(
-                            padding: const EdgeInsets.fromLTRB(35, 0, 0, 0),
-                            child: Row(
-                              children: [
-                                Text("Already have an account?",
-                                    style: GoogleFonts.poppins(
-                                      fontSize: 15,
-                                      color: HexColor("#8d8d8d"),
-                                    )),
-                                TextButton(
-                                  child: Text(
-                                    "Log In",
-                                    style: GoogleFonts.poppins(
-                                      fontSize: 15,
-                                      color: HexColor("#44564a"),
-                                    ),
-                                  ),
-                                  onPressed: () => Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => const Scaffold(),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
+    return SafeArea(
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
+        body: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              padding: const EdgeInsets.fromLTRB(0, 40, 0, 0),
+              alignment: AlignmentDirectional.centerStart,
+              child: IconButton(
+                icon: const Icon(
+                  Icons.chevron_left,
+                  size: 50,
                 ),
+                onPressed: (){Navigator.pushReplacementNamed(context, FirstPage.id);},
               ),
-            )
-          ),
-        ));
+            ),
+            Expanded(child: Container()),
+            Container(
+                alignment: AlignmentDirectional.center,
+                height: 200,
+                child: Image.asset('assets/Images/logo.png')
+            ),
+
+            InField('Email', false, _emailController, 1,0),
+            InField('Password', true, _passwordController, 2,0),
+            InField('Username', false, _userController, 3,0),
+
+            ElevatedButton(
+              onPressed: () async {
+                setState(() {isLoading = true;});
+                String reply = await AuthMtds().createUser(email: _emailController.text, password: _passwordController.text, username: _userController.text, phoneNumber: '12345');
+                setState(() {isLoading = false;});
+
+                if(reply == 'Success')
+                {
+                  print('success');
+                  //Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => Feed()));
+                }
+                else
+                {
+                  //popUp(reply, context, 1, 500, Colors.red);
+                }
+              },
+              style: ElevatedButton.styleFrom(
+                  minimumSize: const Size(340,50),
+                  padding: const EdgeInsets.all(10),
+                backgroundColor: kgreen
+              ),
+              child: isLoading? const CircularProgressIndicator(color: Colors.white,) : const Text('Sign up'),
+            ),
+            Container(
+              padding: const EdgeInsets.fromLTRB(10, 20, 10, 0),
+              child: const Text('Or'),
+            ),
+            Container(
+              padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text('Have an account?'),
+                  TextButton(
+                    child: const Text('Log in', style: TextStyle(color: kgreen),),
+                    onPressed: (){Navigator.pushReplacementNamed(context, LoginPage.id);},
+                  ),
+                ],
+              ),
+            ),
+            Expanded(child: Container()),
+          ],
+        ),
+      ),
+    );
   }
 }
+
+
+

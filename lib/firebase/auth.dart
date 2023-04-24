@@ -1,5 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 
+import 'firestore.dart';
+
 class AuthMtds{
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
@@ -33,7 +35,7 @@ class AuthMtds{
       print('complete account creation');
       String uid = cred.user!.uid;
       print('Setting up firestore for user');
-      //await FireStrMtd().createUser(email: email, uid: uid, username: username);
+      await FireStrMtd().createUser(email: email, uid: uid, username: username, phoneNumber: phoneNumber);
       print('completed user setup');
       reply = 'Success';
     }
@@ -74,8 +76,16 @@ class AuthMtds{
   }
 
   logout() async{
-    print('Request for user sign out');
-    await _auth.signOut();
+    try{
+      print('Request for user sign out');
+      await _auth.signOut();
+      return 'Success';
+    }
+    on FirebaseAuthException catch  (e)
+    {
+      return e.toString();
+    }
+
   }
 
 

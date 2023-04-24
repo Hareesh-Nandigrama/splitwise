@@ -1,8 +1,13 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:hexcolor/hexcolor.dart';
+import 'package:splitwise/constants/colors.dart';
 import 'package:splitwise/screens/authentication/login.dart';
+import 'package:splitwise/screens/authentication/signup.dart';
+import 'package:splitwise/screens/authentication/welcome.dart';
+import 'package:splitwise/screens/home.dart';
+import 'package:splitwise/stores/common_store.dart';
 import 'firebase/auth.dart';
+import 'package:provider/provider.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -16,116 +21,57 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
-      theme: ThemeData().copyWith(
-        colorScheme: ThemeData().colorScheme.copyWith(
-              primary: HexColor("#8d8d8d"),
-            ),
-      ),
-      home: StreamBuilder(
-        stream: AuthMtds().inst().authStateChanges(),
-        builder: (context, snapshot) {
+    return MultiProvider(
+      providers: [
+        Provider<CommonStore>(
+          create: (_) => CommonStore(),
+        ),
+      ],
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'Splitwise',
+        theme: ThemeData().copyWith(
+          colorScheme: ThemeData().colorScheme.copyWith(
+                primary: kgreen,
+              ),
+        ),
+        home: StreamBuilder(
+          stream: AuthMtds().inst().authStateChanges(),
+          builder: (context, snapshot) {
 
-          //If User Signed In
-          if (snapshot.connectionState == ConnectionState.active) {
-            if (snapshot.hasData) {
-              return const Scaffold();
-            } else if (snapshot.hasError) {
-              return Center(
-                child: Text('${snapshot.error}'),
+            //If User Signed In
+            if (snapshot.connectionState == ConnectionState.active) {
+              if (snapshot.hasData) {
+                return const HomeScreen();
+              } else if (snapshot.hasError) {
+                return Center(
+                  child: Text('${snapshot.error}'),
+                );
+              }
+            }
+
+            //Establishing Connection With Firebase
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(
+                child: CircularProgressIndicator(
+                  color: Colors.grey,
+                ),
               );
             }
-          }
 
-          //Establishing Connection With Firebase
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(
-              child: CircularProgressIndicator(
-                color: Colors.grey,
-              ),
-            );
-          }
-
-          //If user Not Signed In
-          return const LoginScreen();
-        },
-      ),
-
-      routes: {
-        '/login': (context) => const LoginScreen(),
-      },
-
-
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-
-    return Scaffold(
-      appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-
-        title: Text(widget.title),
-      ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Invoke "debug painting" (press "p" in the console, choose the
-          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-          // to see the wireframe for each widget.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-          ],
+            //If user Not Signed In
+            return const FirstPage();
+          },
         ),
+
+        routes: {
+          LoginPage.id: (context) => const LoginPage(),
+          SignInPage.id: (context)=> const SignInPage(),
+          FirstPage.id : (context) => const FirstPage(),
+        },
+
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }
+
