@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:splitwise/firebase/auth.dart';
 import 'package:splitwise/screens/authentication/welcome.dart';
 
+import '../functions/pop_up.dart';
+
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
 
@@ -23,7 +25,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 }
               else
                 {
-                  print(response);
+                  popUp(response, context, 1, 500, Colors.redAccent);
                 }
             },
             child: Text(

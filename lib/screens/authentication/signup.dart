@@ -3,9 +3,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:splitwise/screens/authentication/welcome.dart';
+import 'package:splitwise/screens/home.dart';
 
 import '../../constants/colors.dart';
 import '../../firebase/auth.dart';
+import '../../functions/pop_up.dart';
 import '../../widgets/fields/fields.dart';
 import 'login.dart';
 
@@ -64,11 +66,11 @@ class _SignInPageState extends State<SignInPage> {
                 if(reply == 'Success')
                 {
                   print('success');
-                  //Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => Feed()));
+                  Navigator.of(context).pushReplacementNamed(HomeScreen.id);
                 }
                 else
                 {
-                  //popUp(reply, context, 1, 500, Colors.red);
+                  popUp(reply, context, 1, 500, Colors.red);
                 }
               },
               style: ElevatedButton.styleFrom(

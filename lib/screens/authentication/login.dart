@@ -5,6 +5,7 @@ import 'package:splitwise/screens/authentication/signup.dart';
 import 'package:splitwise/screens/authentication/welcome.dart';
 import 'package:splitwise/screens/home.dart';
 import '../../firebase/auth.dart';
+import '../../functions/pop_up.dart';
 import '../../widgets/fields/fields.dart';
 
 class LoginPage extends StatefulWidget {
@@ -67,11 +68,12 @@ class _LoginPageState extends State<LoginPage> {
                 if(reply == 'Success')
                 {
                   print('success');
-                  Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => HomeScreen()));
+                  Navigator.of(context).pushReplacementNamed(HomeScreen.id);
                 }
                 else
                 {
-                  //popUp(reply, context, 1, 500, Colors.redAccent);
+                  print(reply);
+                  popUp(reply, context, 1, 500, Colors.redAccent);
                 }
 
               },

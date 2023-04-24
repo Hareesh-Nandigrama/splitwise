@@ -9,6 +9,7 @@ import '../constants/enums.dart';
 import '../stores/common_store.dart';
 
 class HomeScreen extends StatefulWidget {
+  static const String id = '/home';
   const HomeScreen({Key? key}) : super(key: key);
 
   @override
