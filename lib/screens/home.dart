@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:provider/provider.dart';
+import 'package:splitwise/screens/activity.dart';
+import 'package:splitwise/screens/add_expense.dart';
 import 'package:splitwise/screens/profile.dart';
 import 'package:splitwise/widgets/nav_bar.dart';
 
@@ -35,7 +37,9 @@ class _HomeScreenState extends State<HomeScreen> {
               FloatingActionButtonLocation.centerFloat,
           floatingActionButton: commonStore.page != Pages.account
               ? GestureDetector(
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.of(context).pushNamed(AddExpensePage.id);
+                  },
                   child: Container(
                     width: 130,
                     color: kgreen,

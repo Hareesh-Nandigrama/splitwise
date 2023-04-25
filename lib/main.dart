@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:splitwise/constants/colors.dart';
+import 'package:splitwise/screens/add_expense.dart';
 import 'package:splitwise/screens/authentication/login.dart';
 import 'package:splitwise/screens/authentication/signup.dart';
 import 'package:splitwise/screens/authentication/welcome.dart';
@@ -69,6 +70,7 @@ class MyApp extends StatelessWidget {
           SignInPage.id: (context)=> const SignInPage(),
           FirstPage.id : (context) => const FirstPage(),
           HomeScreen.id: (context) => const HomeScreen(),
+          AddExpensePage.id: (context) => const AddExpensePage(),
         },
 
       ),
