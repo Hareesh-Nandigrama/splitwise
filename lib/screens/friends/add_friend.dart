@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:splitwise/firebase/firestore.dart';
+import 'package:splitwise/functions/pop_up.dart';
 import 'package:splitwise/widgets/fields/fields.dart';
 
 import '../../constants/colors.dart';
@@ -15,6 +16,7 @@ class AddFriendPage extends StatefulWidget {
 class _AddFriendPageState extends State<AddFriendPage> {
 
   TextEditingController emailC = TextEditingController();
+  bool isLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -40,10 +42,18 @@ class _AddFriendPageState extends State<AddFriendPage> {
                     child: InField('Friend Email', false, emailC, 0, 1)),
                 ElevatedButton(
                   onPressed: () async {
-                    var response = await FireStrMtd().addFriend( email: emailC.text,);
+                    setState(() {
+                      isLoading = true;
+                    });
+                    String response = await FireStrMtd().addFriend( email: emailC.text,);
+                    setState(() {
+                      isLoading = false;
+                    });
+                    if(!mounted) return;
+                    popUp(response, context, 1, 500, response == "Added as Friend"?  Colors.green : Colors.red);
                   },
                   style: ElevatedButton.styleFrom(minimumSize: const Size(320,0), padding: const EdgeInsets.all(10), backgroundColor: kgreen),
-                  child: const Text('Add Friend'),
+                  child: isLoading ? const CircularProgressIndicator(): const Text('Add Friend'),
                 ),
                 Expanded(
                   child: Container(),

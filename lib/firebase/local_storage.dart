@@ -1,4 +1,6 @@
 import 'dart:async';
+import 'package:path/path.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:sembast/sembast.dart';
 import 'package:sembast/sembast_io.dart';
 
@@ -22,28 +24,14 @@ class LocalStorage {
   }
 
   Future<void> _openDatabase() async {
-
-    final database = await databaseFactoryIo.openDatabase('splitwise.db');
+    final appDocumentDir = await getApplicationDocumentsDirectory();
+    final dbPath = join(appDocumentDir.path, "splitwise.db");
+    final database = await databaseFactoryIo.openDatabase(dbPath);
     _dbOpenCompleter.complete(database);
   }
 
-  Future<void> storeBusData(
-      Map<String, dynamic> busTime, String recordName) async {
-    var store = StoreRef<String, Map<String, Object?>>.main();
-    Database localDB = await LocalStorage.instance.database;
-    await store.record(recordName).put(localDB, busTime);
-  }
-
-  Future<Map<String, Object?>?> getBusRecord(String recordName) async {
-    var store = StoreRef<String, Map<String, Object?>>.main();
-    Database localDB = await LocalStorage.instance.database;
-    Map<String, Object?>? value = await store.record(recordName).get(localDB);
-    return value;
-  }
-
-  Future<void> storeData(
-      List<Map<String, dynamic>> json, String recordName) async {
-    var store = StoreRef<String, List<Object?>>.main();
+  Future<void> storeData(Map<String, dynamic> json, String recordName) async {
+    var store = StoreRef<String, Object?>.main();
     Database localDB = await LocalStorage.instance.database;
     await store.record(recordName).put(localDB, json);
   }
@@ -55,13 +43,10 @@ class LocalStorage {
   }
 
 
-
-
-
-  Future<List<Object?>?> getRecord(String recordName) async {
-    var store = StoreRef<String, List<Object?>>.main();
+  Future<Object?> getRecord(String recordName) async {
+    var store = StoreRef<String, Object?>.main();
     Database localDB = await LocalStorage.instance.database;
-    List<Object?>? value = await store.record(recordName).get(localDB);
+    Object? value = await store.record(recordName).get(localDB);
     return value;
   }
 }
