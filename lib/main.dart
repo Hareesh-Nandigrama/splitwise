@@ -5,6 +5,8 @@ import 'package:splitwise/screens/add_expense.dart';
 import 'package:splitwise/screens/authentication/login.dart';
 import 'package:splitwise/screens/authentication/signup.dart';
 import 'package:splitwise/screens/authentication/welcome.dart';
+import 'package:splitwise/screens/friends/add_friend.dart';
+import 'package:splitwise/screens/groups/group_home.dart';
 import 'package:splitwise/screens/home.dart';
 import 'package:splitwise/stores/common_store.dart';
 import 'firebase/auth.dart';
@@ -71,6 +73,8 @@ class MyApp extends StatelessWidget {
           FirstPage.id : (context) => const FirstPage(),
           HomeScreen.id: (context) => const HomeScreen(),
           AddExpensePage.id: (context) => const AddExpensePage(),
+          GroupHome.id: (context) => const GroupHome(),
+          AddFriendPage.id: (context) => const AddFriendPage(),
         },
 
       ),

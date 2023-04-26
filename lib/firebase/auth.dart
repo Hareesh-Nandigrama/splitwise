@@ -9,6 +9,28 @@ class AuthMtds{
     return _auth;
   }
 
+  checkEmailExists(String email)
+  async
+  {
+    bool response = false;
+    try
+    {
+      List<String> ans = await _auth.fetchSignInMethodsForEmail(email);
+      if(ans.isNotEmpty)
+        {
+          response = true;
+        }
+    }
+    on FirebaseAuthException catch  (e)
+    {
+      print('Failed with error code: ${e.code}');
+      print(e.message);
+    }
+
+    return response;
+  }
+
+
   checkCurrentPassword(String pass) async {
     User user = _auth.currentUser!;
     AuthCredential credential = EmailAuthProvider.credential(email: _auth.currentUser!.email!, password: pass);

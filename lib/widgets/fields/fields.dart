@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:splitwise/constants/colors.dart';
 
 class InField extends StatefulWidget {
   final text;
@@ -28,7 +29,11 @@ class _InFieldState extends State<InField> {
         controller: control,
         obscureText: hide,
         decoration: InputDecoration(
-          border: const OutlineInputBorder(),
+          border: const OutlineInputBorder(
+            borderSide: BorderSide(
+              color: kgreen
+            )
+          ),
           labelText: text,
         ),
       ),

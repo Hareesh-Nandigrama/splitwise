@@ -2,6 +2,7 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:splitwise/firebase/firestore.dart';
 import 'package:splitwise/screens/authentication/welcome.dart';
 import 'package:splitwise/screens/home.dart';
 
@@ -66,6 +67,7 @@ class _SignInPageState extends State<SignInPage> {
                 if(reply == 'Success')
                 {
                   print('success');
+                  FireStrMtd().saveUserData(_emailController.text);
                   Navigator.of(context).pushReplacementNamed(HomeScreen.id);
                 }
                 else

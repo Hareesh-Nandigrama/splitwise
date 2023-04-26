@@ -5,8 +5,8 @@ import '../constants/colors.dart';
 import '../stores/common_store.dart';
 import '../constants/enums.dart';
 
-class InstaBar extends StatelessWidget {
-  const InstaBar({Key? key}) : super(key: key);
+class BottomNavBar extends StatelessWidget {
+  const BottomNavBar({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
