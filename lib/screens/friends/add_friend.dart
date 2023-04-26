@@ -14,7 +14,6 @@ class AddFriendPage extends StatefulWidget {
 }
 
 class _AddFriendPageState extends State<AddFriendPage> {
-
   TextEditingController emailC = TextEditingController();
   bool isLoading = false;
 
@@ -24,9 +23,12 @@ class _AddFriendPageState extends State<AddFriendPage> {
       child: Scaffold(
         appBar: AppBar(
           title: Text("Add Friend"),
-          leading: IconButton(icon: Icon(Icons.chevron_left_sharp),onPressed: (){
-            Navigator.of(context).pop();
-          },),
+          leading: IconButton(
+            icon: Icon(Icons.chevron_left_sharp),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
           centerTitle: true,
         ),
         body: Padding(
@@ -45,15 +47,32 @@ class _AddFriendPageState extends State<AddFriendPage> {
                     setState(() {
                       isLoading = true;
                     });
-                    String response = await FireStrMtd().addFriend( email: emailC.text,);
+                    String response = await FireStrMtd().addFriend(
+                      email: emailC.text,
+                    );
                     setState(() {
                       isLoading = false;
                     });
-                    if(!mounted) return;
-                    popUp(response, context, 1, 500, response == "Added as Friend"?  Colors.green : Colors.red);
+                    if (!mounted) return;
+                    popUp(
+                        response,
+                        context,
+                        2,
+                        500,
+                        response == "Added as Friend"
+                            ? Colors.green
+                            : Colors.red);
+                    setState(() {
+                      emailC.text = "";
+                    });
                   },
-                  style: ElevatedButton.styleFrom(minimumSize: const Size(320,0), padding: const EdgeInsets.all(10), backgroundColor: kgreen),
-                  child: isLoading ? const CircularProgressIndicator(): const Text('Add Friend'),
+                  style: ElevatedButton.styleFrom(
+                      minimumSize: const Size(320, 0),
+                      padding: const EdgeInsets.all(10),
+                      backgroundColor: kgreen),
+                  child: isLoading
+                      ? const CircularProgressIndicator()
+                      : const Text('Add Friend'),
                 ),
                 Expanded(
                   child: Container(),

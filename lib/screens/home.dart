@@ -11,6 +11,7 @@ import '../constants/colors.dart';
 import '../constants/enums.dart';
 import '../stores/common_store.dart';
 import 'friends/add_friend.dart';
+import 'groups/new_group.dart';
 
 class HomeScreen extends StatefulWidget {
   static const String id = '/home';
@@ -43,7 +44,9 @@ class _HomeScreenState extends State<HomeScreen> {
               commonStore.page == Pages.account ? "Account" : ""
             ),
             actions: [
-              commonStore.page == Pages.groups ? IconButton(onPressed: (){}, icon: Icon(Icons.group_add_outlined)):
+              commonStore.page == Pages.groups ? IconButton(onPressed: (){
+                Navigator.of(context).pushNamed(NewGroupPage.id);
+              }, icon: Icon(Icons.group_add_outlined)):
               commonStore.page == Pages.friends ? IconButton(onPressed: (){
                 Navigator.of(context).pushNamed(AddFriendPage.id);
               }, icon: Icon(Icons.person_add_alt_1)):Container()
