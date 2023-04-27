@@ -26,13 +26,30 @@ class FireStrMtd {
       'groups': [email],
       'activity': tmp,
     });
+    await _firestore.collection('groups').doc(email).set({
+      'creator': email,
+      'expenses': tmp,
+      'title': "Non-group expenses"
+    });
     print('finished firestore setup');
   }
 
   createNonGroupExpense(Map<String, dynamic> data)
-{
+  async {
+    try {
+      await _firestore.collection('expenses').doc(data['expenseID']).set(data);
+      for (var person in data['owe'].keys) {
+        await _firestore.collection('groups').doc(person).update(
+            {'expenses': FieldValue.arrayUnion([data['expenseID']])});
+      }
 
-}
+      return "Success";
+    }
+    catch(e){
+      return e.toString();
+    }
+
+  }
 
   addFriend({required String email}) async {
     if (email == UserStore.email) {
@@ -100,4 +117,10 @@ class FireStrMtd {
     await LocalStorage.instance.storeData(resp, 'userdata');
     UserStore.initialise(resp);
   }
+
+  initializeStores()
+  {
+
+  }
+
 }

@@ -12,7 +12,7 @@ class GroupHome extends StatelessWidget {
       child: Column(
         children: [
           for(String grp in UserStore.groups)
-            GroupTile(type: 1)
+            GroupTile(groupID: "Appke")
         ],
       ),
     );

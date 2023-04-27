@@ -9,8 +9,6 @@ class CommonStore = _CommonStore with _$CommonStore;
 
 abstract class _CommonStore with Store {
 
-  // static List<String> spardhaEvents=[];
-
   @observable
   Pages page = Pages.groups;
 

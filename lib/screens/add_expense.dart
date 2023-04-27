@@ -24,6 +24,7 @@ class _AddExpensePageState extends State<AddExpensePage> {
     UserStore.email : TextEditingController(text: '0'),
   };
   List<String> people = [UserStore.email];
+  double tot = 0;
   void split()
   {
     if(amount.text == '' || amount.text.isEmpty)
@@ -37,6 +38,19 @@ class _AddExpensePageState extends State<AddExpensePage> {
     {
       tmp[key]!.text = share.toString();
     }
+  }
+
+  double checkSum()
+  {
+    double a = double.parse(amount.text);
+    double counter = 0;
+    for(var key in tmp.keys)
+      {
+        counter += double.parse(tmp[key]!.text);
+      }
+
+    a = a - counter;
+    return a;
   }
 
   @override
@@ -53,17 +67,37 @@ class _AddExpensePageState extends State<AddExpensePage> {
         title: const Text("Add Expense"),
         actions: [
           IconButton(onPressed: () async {
+            double x = checkSum();
+            print(x);
+            if(x > 0.01 || x < -0.01)
+              {
+
+                popUp("${x} amount has not been accounted correctly", context, 1, 500, Colors.red);
+                return;
+              }
+            String expenseID = "Expenses${UserStore.email}${DateTime.now()}";
             Map<String, dynamic> data = {};
             data['paidBy'] = UserStore.email;
             data['title'] = name.text;
             data['amount'] = amount.text;
             data['owe'] = {};
+            data['date'] = DateTime.now();
+            data['expenseID'] = expenseID;
             for(var person in tmp.keys)
               {
                 data['owe'][person] = double.parse(tmp[person]!.text);
               }
             print(data);
-            //String response = await FireStrMtd().createNonGroupExpense();
+            String response = await FireStrMtd().createNonGroupExpense(data);
+            if(response == "Success")
+              {
+                Navigator.of(context).pop();
+                popUp("Expense Added", context, 1, 500, Colors.green);
+              }
+            else
+              {
+                popUp(response, context, 1, 500, Colors.red);
+              }
           }, icon: Icon(Icons.save))
         ],
       ),
@@ -76,7 +110,7 @@ class _AddExpensePageState extends State<AddExpensePage> {
               children: [
                 InField('Expense Title', false, name, 0, 0),
                 InField('Amount', false, amount, 10, 0),
-                InField("People Involved", false, email,0,0),
+                InField("Add People Involved", false, email,0,0),
                 ElevatedButton(
                   onPressed: () async {
 
