@@ -1,13 +1,12 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:splitwise/constants/colors.dart';
-import 'package:splitwise/firebase/firestore.dart';
-import 'package:splitwise/screens/authentication/signup.dart';
-import 'package:splitwise/screens/authentication/welcome.dart';
-import 'package:splitwise/screens/home.dart';
+import '../../constants/colors.dart';
 import '../../firebase/auth.dart';
+import '../../firebase/firestore.dart';
 import '../../functions/pop_up.dart';
 import '../../widgets/fields/fields.dart';
+import '../home.dart';
+import 'signup.dart';
+import 'welcome.dart';
 
 class LoginPage extends StatefulWidget {
   static const String id = '/login';

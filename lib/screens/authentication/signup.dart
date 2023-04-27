@@ -1,16 +1,12 @@
-
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:splitwise/firebase/firestore.dart';
-import 'package:splitwise/screens/authentication/welcome.dart';
-import 'package:splitwise/screens/home.dart';
-
 import '../../constants/colors.dart';
 import '../../firebase/auth.dart';
+import '../../firebase/firestore.dart';
 import '../../functions/pop_up.dart';
 import '../../widgets/fields/fields.dart';
+import '../home.dart';
 import 'login.dart';
+import 'welcome.dart';
 
 
 class SignInPage extends StatefulWidget {

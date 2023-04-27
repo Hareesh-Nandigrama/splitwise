@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:splitwise/firebase/auth.dart';
-import 'package:splitwise/firebase/local_storage.dart';
 import 'package:splitwise/screens/authentication/welcome.dart';
 import 'package:splitwise/stores/common_store.dart';
 
@@ -58,7 +57,6 @@ class _ProfilePageState extends State<ProfilePage> {
                       if (!mounted) return;
                       if(response == "Success")
                         {
-                          await LocalStorage.instance.deleteRecord('userdata');
                           if (!mounted) return;
                           Navigator.pushReplacementNamed(context, FirstPage.id);
                           UserStore.clear();

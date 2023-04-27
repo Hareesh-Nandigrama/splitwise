@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:splitwise/firebase/auth.dart';
 import 'package:splitwise/firebase/firestore.dart';
+import 'package:splitwise/models/user_groups_model.dart';
+import 'package:splitwise/stores/user_store.dart';
 import 'package:splitwise/widgets/group_tile.dart';
 import '../../models/group_model.dart';
-import '../../stores/user_store.dart';
 
 class GroupHome extends StatelessWidget {
   static const String id = '/groupHome';
@@ -12,15 +14,15 @@ class GroupHome extends StatelessWidget {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: FutureBuilder(
-        future: FireStrMtd().getGroups(),
+        future: FireStrMtd().saveUserData(AuthMtds().getEmail()),
         builder: (context,snapshot) {
           if(snapshot.hasData)
             {
-              var dat = snapshot.data as Map<String, GroupModel>;
+              print(UserStore.groups.values);
               return Column(
                 children: [
-                  for(GroupModel grp in dat.values)
-                    GroupTile(grpModel: grp,)
+                  for(UserGroupModel x in UserStore.groups.values)
+                    GroupTile(userGrpModel: x,)
                 ],
               );
             }

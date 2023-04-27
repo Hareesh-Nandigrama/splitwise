@@ -1,19 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:splitwise/screens/groups/group_detail.dart';
 
-import '../models/group_model.dart';
+import '../models/user_groups_model.dart';
+
 
 class GroupTile extends StatelessWidget {
-  final GroupModel grpModel;
+  final UserGroupModel userGrpModel;
   int type = 3;
-  GroupTile({Key? key, required this.grpModel, }) : super(key: key);
+  GroupTile({Key? key, required this.userGrpModel, }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
         Navigator.of(context)
-            .push(MaterialPageRoute(builder: (context) => GroupDetails(grpModel: grpModel,)));
+            .push(MaterialPageRoute(builder: (context) => GroupDetails(userGrpModel: userGrpModel,)));
       },
       child: Padding(
           padding: const EdgeInsets.all(10.0),
@@ -32,23 +33,23 @@ class GroupTile extends StatelessWidget {
                   ),
                 ],
               ),
-              SizedBox(
+              const SizedBox(
                 width: 10,
               ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    grpModel.title,
-                    style: TextStyle(color: Colors.black, fontSize: 25),
+                    userGrpModel.title,
+                    style: const TextStyle(color: Colors.black, fontSize: 25),
                   ),
-                  type > 0
+                  userGrpModel.owe > 0
                       ? Text(
                           'You are owed $type',
-                          style: TextStyle(color: Colors.green, fontSize: 20),
+                          style: const TextStyle(color: Colors.green, fontSize: 20),
                         )
-                      : type == 0
-                          ? Text(
+                      : userGrpModel.owe == 0
+                          ? const Text(
                               'settled up',
                               style:
                                   TextStyle(color: Colors.grey, fontSize: 20),
@@ -56,7 +57,7 @@ class GroupTile extends StatelessWidget {
                           : Text(
                               'You owe ${-1 * type}',
                               style:
-                                  TextStyle(color: Colors.orange, fontSize: 20),
+                                  const TextStyle(color: Colors.orange, fontSize: 20),
                             )
                 ],
               )

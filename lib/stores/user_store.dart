@@ -1,51 +1,53 @@
+import '../models/user_friends_model.dart';
+import '../models/user_groups_model.dart';
+
 class UserStore
 {
-  static String username = '';
-  static String email = '';
-  static String phoneNumber= '';
-  static List<String> friends = [];
-  static List<String> groups = [];
+  static String phoneNumber = "";
+  static String uid = "";
+  static String email = "";
+  static String username = "";
   static List<String> activity = [];
+  static Map<String,UserFriendModel> friends = {};
+  static Map<String,UserGroupModel> groups = {};
+
+  static void initialise(Map<String,dynamic> data)
+  {
+    phoneNumber = data['phoneNumber'];
+    email = data['email'];
+    username = data['username'];
+    uid = data['uid'];
+    List<String> temp1 = [];
+    for(String x in data['activity'])
+      {
+        temp1.add(x);
+      }
+    Map<String,UserFriendModel> temp2 = {};
+    for(String x in data['friends'].keys)
+    {
+      temp2[x] = UserFriendModel.fromJson(data['friends'][x]);
+    }
+    Map<String,UserGroupModel> temp3 = {};
+    for(String x in data['groups'].keys)
+    {
+      temp3[x] = UserGroupModel.fromJson(data['groups'][x]);
+    }
+    activity = temp1;
+    friends = temp2;
+    groups = temp3;
+  }
 
   static void clear()
   {
-    username = "";
-    email = "";
     phoneNumber = "";
-    friends = [];
-    groups = [];
+    email ="";
+    username = "";
+    uid = "";
     activity = [];
-  }
+    friends = {};
+    groups = {};
 
-  static void initialise(Map<String, dynamic> resp)
-  {
-    email = resp['email'];
-    username = resp['username'];
-    phoneNumber = resp['phoneNumber'];
-    List<String> t1 = [];
-    resp['friends'].forEach((element) {t1.add(element as String);});
-    List<String> t2 = [];
-    resp['groups'].forEach((element) {t2.add(element as String);});
-    List<String> t3 = [];
-    resp['activity'].forEach((element) {t2.add(element as String);});
-    friends = t1;
-    groups = t2;
-    activity = t3;
   }
-
-  static Map<String, dynamic> getData()
-  {
-    return
-        {
-          'email': email,
-          'username': username,
-          'phoneNumber': phoneNumber,
-          'friends': friends,
-          'groups': groups,
-          'activity': activity,
-        };
-  }
-
 
 
 

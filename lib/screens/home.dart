@@ -1,13 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:provider/provider.dart';
-import 'package:splitwise/screens/activity.dart';
-import 'package:splitwise/screens/expenses/add_expense.dart';
 import 'package:splitwise/screens/groups/group_home.dart';
 import 'package:splitwise/screens/profile.dart';
 import 'package:splitwise/widgets/nav_bar.dart';
-
-import '../constants/colors.dart';
 import '../constants/enums.dart';
 import '../stores/common_store.dart';
 import 'friends/add_friend.dart';
@@ -45,10 +41,10 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             actions: [
               commonStore.page == Pages.groups ? IconButton(onPressed: (){
-                Navigator.of(context).pushNamed(NewGroupPage.id);
+                //Navigator.of(context).pushNamed(NewGroupPage.id);
               }, icon: Icon(Icons.group_add)):
               commonStore.page == Pages.friends ? IconButton(onPressed: (){
-                Navigator.of(context).pushNamed(AddFriendPage.id);
+               // Navigator.of(context).pushNamed(AddFriendPage.id);
               }, icon: Icon(Icons.person_add_alt_1)):Container()
             ],
           ),

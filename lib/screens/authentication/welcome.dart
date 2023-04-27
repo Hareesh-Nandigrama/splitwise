@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:splitwise/screens/authentication/login.dart';
 import 'package:splitwise/screens/authentication/signup.dart';
-
 import '../../constants/colors.dart';
 
 class FirstPage extends StatelessWidget {
