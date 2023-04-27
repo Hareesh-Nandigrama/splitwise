@@ -25,7 +25,7 @@ class _InFieldState extends State<InField> {
       height: typo == 0? 60 : 70,
       padding: const EdgeInsets.all(5),
       child: TextFormField(
-        keyboardType: (type == 1)? TextInputType.emailAddress : TextInputType.text,
+        keyboardType: (type == 1)? TextInputType.emailAddress : (type == 10)? TextInputType.number :TextInputType.text,
         controller: control,
         obscureText: hide,
         decoration: InputDecoration(

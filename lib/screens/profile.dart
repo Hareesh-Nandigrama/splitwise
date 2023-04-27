@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:splitwise/firebase/auth.dart';
 import 'package:splitwise/firebase/local_storage.dart';
 import 'package:splitwise/screens/authentication/welcome.dart';
+import 'package:splitwise/stores/common_store.dart';
 
+import '../constants/enums.dart';
 import '../functions/pop_up.dart';
 import '../stores/user_store.dart';
 import '../widgets/fields/fields.dart';
@@ -21,6 +24,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
+    var commonStore = context.read<CommonStore>();
     return Center(
           child: Padding(
             padding: const EdgeInsets.fromLTRB(8.0, 25, 8, 0),
@@ -58,6 +62,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           if (!mounted) return;
                           Navigator.pushReplacementNamed(context, FirstPage.id);
                           UserStore.clear();
+                          commonStore.setPage(Pages.groups);
                         }
                       else
                         {
@@ -66,8 +71,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
                     },
                     style: OutlinedButton.styleFrom(
-                        primary: Colors.red,
-                        minimumSize: const Size(380, 60),
+                        foregroundColor: Colors.red, minimumSize: const Size(380, 60),
                         padding: const EdgeInsets.all(10),
                         side: const BorderSide(
                           color: Colors.red,

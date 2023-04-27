@@ -46,7 +46,7 @@ class _HomeScreenState extends State<HomeScreen> {
             actions: [
               commonStore.page == Pages.groups ? IconButton(onPressed: (){
                 Navigator.of(context).pushNamed(NewGroupPage.id);
-              }, icon: Icon(Icons.group_add_outlined)):
+              }, icon: Icon(Icons.group_add)):
               commonStore.page == Pages.friends ? IconButton(onPressed: (){
                 Navigator.of(context).pushNamed(AddFriendPage.id);
               }, icon: Icon(Icons.person_add_alt_1)):Container()

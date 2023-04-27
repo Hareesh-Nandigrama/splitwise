@@ -1,8 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
-import 'package:sembast/sembast.dart';
-import 'package:sembast/sembast_io.dart';
 import 'package:splitwise/firebase/auth.dart';
 import 'package:splitwise/firebase/local_storage.dart';
 import 'package:splitwise/stores/user_store.dart';
@@ -19,16 +16,23 @@ class FireStrMtd {
       required String username,
       required String phoneNumber}) async {
     print('Started firestore setup');
+    List<String> tmp = [];
     await _firestore.collection('users').doc(email).set({
       'uid': uid,
       'email': email,
       'username': username,
       'phoneNumber': phoneNumber,
-      'friends': [''],
-      'groups': [''],
+      'friends': tmp,
+      'groups': [email],
+      'activity': tmp,
     });
     print('finished firestore setup');
   }
+
+  createNonGroupExpense(Map<String, dynamic> data)
+{
+
+}
 
   addFriend({required String email}) async {
     if (email == UserStore.email) {
@@ -37,21 +41,13 @@ class FireStrMtd {
       return "Already Added";
     }
     if (await AuthMtds().checkEmailExists(email)) {
-      CollectionReference users =
-          FirebaseFirestore.instance.collection('users');
-      var doc2 = await users.doc(email).get();
-      var resp2 = doc2.data()! as Map<String, dynamic>;
-      List<String> tmp2 = [];
-      resp2['friends'].forEach((element) {tmp2.add(element as String);});
-      List<String> tmp1 = UserStore.friends;
-      tmp2.add(UserStore.email);
-      tmp1.add(email);
+      CollectionReference users = getColl('users');
 
       try {
-        await users.doc(email).update({'friends': tmp2});
-        await users.doc(UserStore.email).update({'friends': tmp1});
+        await users.doc(email).update({'friends': FieldValue.arrayUnion([UserStore.email])});
+        await users.doc(UserStore.email).update({'friends': FieldValue.arrayUnion([email])});
+        UserStore.friends.add(email);
 
-        UserStore.friends = tmp1;
         await LocalStorage.instance.storeData(UserStore.getData(), 'userdata');
       } catch (e) {
         if (kDebugMode) {
@@ -65,6 +61,37 @@ class FireStrMtd {
       return "Invalid Email";
     }
   }
+
+  createGroup({required List<String> people, required String title})
+  async {
+    people.add(UserStore.email);
+    List<String> e = [];
+    String groupID = 'Group${UserStore.email}${DateTime.now()}';
+    try
+    {
+      await _firestore.collection('groups').doc(groupID).set({
+        'title': title,
+        'creator': UserStore.email,
+        'people': people,
+        'expenses': e
+      });
+      CollectionReference users = getColl('users');
+      for(String person in people)
+      {
+        await users.doc(person).update({"groups":  FieldValue.arrayUnion([groupID])});
+      }
+      UserStore.groups.add(groupID);
+      await LocalStorage.instance.storeData(UserStore.getData(), 'userdata');
+      return "Success";
+    }catch(e){
+      print(e);
+      return e.toString();
+    }
+
+
+
+  }
+
 
   saveUserData(String email) async {
     DocumentSnapshot data =

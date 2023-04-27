@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:splitwise/widgets/group_tile.dart';
+import '../../stores/user_store.dart';
 
 class GroupHome extends StatelessWidget {
   static const String id = '/groupHome';
@@ -10,9 +11,8 @@ class GroupHome extends StatelessWidget {
     return SingleChildScrollView(
       child: Column(
         children: [
-          GroupTile(type: 5),
-          GroupTile(type: 0),
-          GroupTile(type: -5),
+          for(String grp in UserStore.groups)
+            GroupTile(type: 1)
         ],
       ),
     );
