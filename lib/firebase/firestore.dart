@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-
 import '../models/expense_model.dart';
 import '../models/group_model.dart';
 import '../stores/user_store.dart';
@@ -68,12 +67,10 @@ Future<GroupModel> getGroupDetails(String id) async {
       var resp2 = data2.data()! as Map<String,dynamic>;
       e.add(ExpenseModel.fromJson(resp2));
     }
-  print("PRINT");
-  print(resp['balances']);
+
   Map<String, Map<String,double>> TT = {};
   for(String person1 in (resp['balances'] as Map<String, dynamic>).keys)
     {
-      print('aaa');
       Map<String,double> T = {};
       for(String person2 in resp['balances'][person1].keys)
       {
@@ -81,11 +78,8 @@ Future<GroupModel> getGroupDetails(String id) async {
       }
       TT[person1] = T;
     }
-  print("FINAL");
-  print(TT);
+
   var a = GroupModel(id: resp['id'], title: resp['title'], creator:resp['creator'], expenses: e, balances: TT);
-  print('apple');
-  print(a);
   return a;
 }
 
