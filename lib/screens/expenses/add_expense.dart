@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import '../../constants/colors.dart';
-import '../../firebase/firestore.dart';
 import '../../functions/pop_up.dart';
 import '../../models/group_model.dart';
 import '../../stores/user_store.dart';
@@ -57,7 +56,7 @@ class _AddExpensePageState extends State<AddExpensePage> {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          icon: Icon(Icons.chevron_left_sharp),
+          icon: const Icon(Icons.chevron_left_sharp),
           onPressed: () {
             Navigator.of(context).pop();
           },
@@ -87,7 +86,6 @@ class _AddExpensePageState extends State<AddExpensePage> {
               {
                 data['owe'][person] = double.parse(tmp[person]!.text);
               }
-            print(data);
             String response = '';
             if(widget.grpModel.id == UserStore.email)
               {
@@ -106,7 +104,7 @@ class _AddExpensePageState extends State<AddExpensePage> {
               {
                 popUp(response, context, 1, 500, Colors.red);
               }
-          }, icon: Icon(Icons.save))
+          }, icon: const Icon(Icons.save))
         ],
       ),
       body: SingleChildScrollView(
@@ -126,8 +124,7 @@ class _AddExpensePageState extends State<AddExpensePage> {
                     popUp("Cannot be empty", context, 1, 500, Colors.red);
                     return;
                     }
-                    if(true)
-                    // if(widget.grpModel.people.contains(email.text))
+                     if(widget.grpModel.people.contains(email.text))
                     {
                       if(people.contains(email.text))
                       {
@@ -194,7 +191,7 @@ class _AddExpensePageState extends State<AddExpensePage> {
                                   });
                                 }
 
-                            }, icon: Icon(Icons.clear, color: Colors.red,))
+                            }, icon: const Icon(Icons.clear, color: Colors.red,))
                           ],
                         ),
                       )
