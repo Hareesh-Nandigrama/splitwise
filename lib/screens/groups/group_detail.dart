@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:splitwise/firebase/firestore.dart';
 import 'package:splitwise/models/group_model.dart';
 import 'package:splitwise/widgets/fields/expenses_tile.dart';
 
@@ -22,43 +23,46 @@ class _GroupDetailsState extends State<GroupDetails> {
         title: Text(widget.grpModel.title),
 
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            type > 0
-                ? Text(
-              'You are owed $type overall',
-              style: TextStyle(color: Colors.green, fontSize: 20),
-            )
-                : type == 0
-                ? Text(
-              'settled up',
-              style: TextStyle(color: Colors.grey, fontSize: 20),
-            )
-                : Text(
-              'You owe $type overall',
-              style:
-              TextStyle(color: Colors.orange, fontSize: 20),
-            ),
-            ElevatedButton(
-              onPressed: (){},
-              style: ElevatedButton.styleFrom(minimumSize: const Size(320,0), padding: const EdgeInsets.all(10), backgroundColor: Colors.orange),
-              child: const Text('Settle up'),
-            ),
-            ExpenseTile(),
-            ExpenseTile(),
-            ExpenseTile(),
-            ExpenseTile(),
-            ExpenseTile(),
-            ExpenseTile(),
-            ExpenseTile(),
-            ExpenseTile(),
-            ExpenseTile(),
+      body: FutureBuilder(
+        future: FireStrMtd().getGroupExpenses(widget.grpModel),
+        builder: (context,snapshot) {
+          if(!snapshot.hasData)
+            {
+              return Center(child: CircularProgressIndicator());
+            }
+          return Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                type > 0
+                    ? Text(
+                  'You are owed $type overall',
+                  style: TextStyle(color: Colors.green, fontSize: 20),
+                )
+                    : type == 0
+                    ? Text(
+                  'settled up',
+                  style: TextStyle(color: Colors.grey, fontSize: 20),
+                )
+                    : Text(
+                  'You owe $type overall',
+                  style:
+                  TextStyle(color: Colors.orange, fontSize: 20),
+                ),
+                ElevatedButton(
+                  onPressed: (){},
+                  style: ElevatedButton.styleFrom(minimumSize: const Size(320,0), padding: const EdgeInsets.all(10), backgroundColor: Colors.orange),
+                  child: const Text('Settle up'),
+                ),
+                for(var expmodel in snapshot.data!.values)
+                  ExpenseTile(expmodel: expmodel,)
 
-          ],
-        ),
+
+              ],
+            ),
+          );
+        }
       ),
     );
   }

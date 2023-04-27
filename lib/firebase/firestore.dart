@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:splitwise/firebase/auth.dart';
 import 'package:splitwise/firebase/local_storage.dart';
+import 'package:splitwise/models/expense_model.dart';
 import 'package:splitwise/models/group_model.dart';
 import 'package:splitwise/stores/user_store.dart';
 
@@ -132,6 +133,30 @@ class FireStrMtd {
         answer[groupID] = GroupModel.fromJson(resp);
       }
       print(answer);
+      return answer;
+    }
+    catch(e)
+    {
+      throw Exception('Error');
+    }
+
+  }
+
+  Future<Map<String, ExpenseModel>> getGroupExpenses(GroupModel groupModel)
+  async {
+    try
+    {
+      Map<String,ExpenseModel> answer = {};
+
+      for(String expsnseID in groupModel.expenses)
+        {
+          DocumentSnapshot data = await getColl('expenses').doc(expsnseID).get();
+          print('apple');
+          var resp = data.data()! as Map<String, dynamic>;
+          print(resp);
+          answer[expsnseID] = ExpenseModel.fromJson(resp);
+          print("cat");
+        }
       return answer;
     }
     catch(e)
