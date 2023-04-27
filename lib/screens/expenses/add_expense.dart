@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
-
-import '../constants/colors.dart';
-import '../firebase/firestore.dart';
-import '../functions/pop_up.dart';
-import '../stores/user_store.dart';
-import '../widgets/fields/autocomplete_field.dart';
-import '../widgets/fields/fields.dart';
+import 'package:splitwise/models/group_model.dart';
+import '../../constants/colors.dart';
+import '../../firebase/firestore.dart';
+import '../../functions/pop_up.dart';
+import '../../stores/user_store.dart';
+import '../../widgets/fields/fields.dart';
 
 class AddExpensePage extends StatefulWidget {
-  static const String id = '/activity';
-  const AddExpensePage({Key? key}) : super(key: key);
+  final GroupModel grpModel;
+  const AddExpensePage({Key? key, required this.grpModel, }) : super(key: key);
 
   @override
   State<AddExpensePage> createState() => _AddExpensePageState();
@@ -83,12 +82,21 @@ class _AddExpensePageState extends State<AddExpensePage> {
             data['owe'] = {};
             data['date'] = DateTime.now();
             data['expenseID'] = expenseID;
+            data['groupID'] = widget.grpModel.id;
             for(var person in tmp.keys)
               {
                 data['owe'][person] = double.parse(tmp[person]!.text);
               }
             print(data);
-            String response = await FireStrMtd().createNonGroupExpense(data);
+            String response = '';
+            if(widget.grpModel.id == UserStore.email)
+              {
+                 response = await FireStrMtd().createNonGroupExpense(data);
+              }
+            else
+              {
+                response = await FireStrMtd().createGroupExpense(data);
+              }
             if(response == "Success")
               {
                 Navigator.of(context).pop();
@@ -113,18 +121,19 @@ class _AddExpensePageState extends State<AddExpensePage> {
                 InField("Add People Involved", false, email,0,0),
                 ElevatedButton(
                   onPressed: () async {
-
-                    if(UserStore.friends.contains(email.text))
+                    if(email.text == '')
+                    {
+                    popUp("Cannot be empty", context, 1, 500, Colors.red);
+                    return;
+                    }
+                    if(widget.grpModel.people.contains(email.text))
                     {
                       if(people.contains(email.text))
                       {
                         popUp("Already Added", context, 1, 500, Colors.red);
                         email.text = '';
                       }
-                      else if(email.text == '')
-                      {
-                        popUp("Cannot be empty", context, 1, 500, Colors.red);
-                      }
+
                       else
                       {
                         people.add(email.text);
@@ -138,7 +147,7 @@ class _AddExpensePageState extends State<AddExpensePage> {
                     else
                     {
                       email.text = '';
-                      popUp("Not A Friend", context, 1, 500, Colors.red);
+                      popUp("Not a Friend/Part of group", context, 1, 500, Colors.red);
                     }
                   },
                   style: ElevatedButton.styleFrom(

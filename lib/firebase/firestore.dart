@@ -31,7 +31,8 @@ class FireStrMtd {
     await _firestore.collection('groups').doc(email).set({
       'creator': email,
       'expenses': tmp,
-      'title': "Non-group expenses"
+      'title': "Non-group expenses",
+      'id': email
     });
     print('finished firestore setup');
   }
@@ -45,6 +46,20 @@ class FireStrMtd {
             {'expenses': FieldValue.arrayUnion([data['expenseID']])});
       }
 
+      return "Success";
+    }
+    catch(e){
+      return e.toString();
+    }
+
+  }
+
+  createGroupExpense(Map<String, dynamic> data)
+  async {
+    try {
+      await _firestore.collection('expenses').doc(data['expenseID']).set(data);
+        await _firestore.collection('groups').doc(data['groupID']).update(
+            {'expenses': FieldValue.arrayUnion([data['expenseID']])});
       return "Success";
     }
     catch(e){
@@ -92,7 +107,8 @@ class FireStrMtd {
         'title': title,
         'creator': UserStore.email,
         'people': people,
-        'expenses': e
+        'expenses': e,
+        'id': groupID
       });
       CollectionReference users = getColl('users');
       for(String person in people)
@@ -120,7 +136,7 @@ class FireStrMtd {
       Map<String,GroupModel> answer = {};
       for(var tmp in resp['groups'])
       {
-        answer[tmp] = GroupModel(title: 'title', people: [], creator: ' ', expenses: []);
+        answer[tmp] = GroupModel(title: 'title', people: [], creator: ' ', expenses: [], id: '');
       }
       for(String groupID in answer.keys) {
         DocumentSnapshot data = await getColl('groups').doc(groupID).get();
