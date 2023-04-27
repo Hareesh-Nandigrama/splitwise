@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:splitwise/screens/groups/group_detail.dart';
 
+import '../models/group_model.dart';
+
 class GroupTile extends StatelessWidget {
+  final GroupModel grpModel;
   int type = 3;
-  final String groupID;
-  GroupTile({Key? key, required this.groupID}) : super(key: key);
+  GroupTile({Key? key, required this.grpModel, }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
         Navigator.of(context)
-            .push(MaterialPageRoute(builder: (context) => GroupDetails()));
+            .push(MaterialPageRoute(builder: (context) => GroupDetails(grpModel: grpModel,)));
       },
       child: Padding(
           padding: const EdgeInsets.all(10.0),
@@ -37,7 +39,7 @@ class GroupTile extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Btech Credits',
+                    grpModel.title,
                     style: TextStyle(color: Colors.black, fontSize: 25),
                   ),
                   type > 0

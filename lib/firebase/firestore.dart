@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:splitwise/firebase/auth.dart';
 import 'package:splitwise/firebase/local_storage.dart';
+import 'package:splitwise/models/group_model.dart';
 import 'package:splitwise/stores/user_store.dart';
 
 class FireStrMtd {
@@ -109,6 +110,36 @@ class FireStrMtd {
 
   }
 
+  getGroups()
+  async {
+    try
+    {
+      DocumentSnapshot data = await getColl('users').doc(UserStore.email).get();
+      var resp = data.data()! as Map<String, dynamic>;
+      Map<String,GroupModel> answer = {};
+      for(var tmp in resp['groups'])
+      {
+        answer[tmp] = GroupModel(title: 'title', people: [], creator: ' ', expenses: []);
+      }
+      for(String groupID in answer.keys) {
+        DocumentSnapshot data = await getColl('groups').doc(groupID).get();
+        var resp = data.data()! as Map<String, dynamic>;
+
+        if(!resp.containsKey('people'))
+          {
+            resp['people'] = UserStore.friends;
+          }
+        answer[groupID] = GroupModel.fromJson(resp);
+      }
+      print(answer);
+      return answer;
+    }
+    catch(e)
+    {
+      throw Exception('Error');
+    }
+
+  }
 
   saveUserData(String email) async {
     DocumentSnapshot data =

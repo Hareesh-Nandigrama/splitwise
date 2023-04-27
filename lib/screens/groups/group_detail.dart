@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:splitwise/models/group_model.dart';
 import 'package:splitwise/widgets/fields/expenses_tile.dart';
 
 class GroupDetails extends StatefulWidget {
-  const GroupDetails({Key? key}) : super(key: key);
+  final GroupModel grpModel;
+  const GroupDetails({Key? key, required this.grpModel}) : super(key: key);
 
   @override
   State<GroupDetails> createState() => _GroupDetailsState();
@@ -17,7 +19,7 @@ class _GroupDetailsState extends State<GroupDetails> {
         leading: IconButton(icon: Icon(Icons.chevron_left_sharp),onPressed: (){
           Navigator.of(context).pop();
         },),
-        title: Text('Group Name'),
+        title: Text(widget.grpModel.title),
 
       ),
       body: Padding(
