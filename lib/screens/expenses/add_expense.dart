@@ -124,7 +124,7 @@ class _AddExpensePageState extends State<AddExpensePage> {
                     popUp("Cannot be empty", context, 1, 500, Colors.red);
                     return;
                     }
-                     if(widget.grpModel.people.contains(email.text))
+                     if(true)
                     {
                       if(people.contains(email.text))
                       {

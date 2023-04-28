@@ -13,20 +13,23 @@ class UserStore
 
   static void initialise(Map<String,dynamic> data)
   {
+
     phoneNumber = data['phoneNumber'];
     email = data['email'];
     username = data['username'];
     uid = data['uid'];
     List<String> temp1 = [];
+
     for(String x in data['activity'])
       {
         temp1.add(x);
       }
     Map<String,UserFriendModel> temp2 = {};
-    for(String x in data['friends'].keys)
+    for(String x in (data['friends'] as Map<String,dynamic>).keys)
     {
       temp2[x] = UserFriendModel.fromJson(data['friends'][x]);
     }
+
     Map<String,UserGroupModel> temp3 = {};
     for(String x in data['groups'].keys)
     {

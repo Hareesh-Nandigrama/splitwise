@@ -7,6 +7,7 @@ import 'package:splitwise/widgets/nav_bar.dart';
 import '../constants/enums.dart';
 import '../stores/common_store.dart';
 import 'friends/add_friend.dart';
+import 'friends/friend_home.dart';
 import 'groups/new_group.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -21,7 +22,7 @@ class _HomeScreenState extends State<HomeScreen> {
   final tabs = {
     Pages.account: ProfilePage(),
     Pages.groups: GroupHome(),
-    Pages.friends: Container(),
+    Pages.friends: FriendHome(),
     Pages.activity: Container(),
   };
   @override
@@ -41,10 +42,10 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             actions: [
               commonStore.page == Pages.groups ? IconButton(onPressed: (){
-                //Navigator.of(context).pushNamed(NewGroupPage.id);
+                Navigator.of(context).pushNamed(NewGroupPage.id);
               }, icon: Icon(Icons.group_add)):
               commonStore.page == Pages.friends ? IconButton(onPressed: (){
-               // Navigator.of(context).pushNamed(AddFriendPage.id);
+                Navigator.of(context).pushNamed(AddFriendPage.id);
               }, icon: Icon(Icons.person_add_alt_1)):Container()
             ],
           ),

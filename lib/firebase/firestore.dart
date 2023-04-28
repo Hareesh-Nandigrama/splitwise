@@ -1,7 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
+import 'package:splitwise/models/user_friends_model.dart';
+import 'package:splitwise/models/user_groups_model.dart';
 import '../models/expense_model.dart';
 import '../models/group_model.dart';
 import '../stores/user_store.dart';
+import 'auth.dart';
 
 
 class FireStrMtd {
@@ -45,10 +49,14 @@ class FireStrMtd {
     });
   }
 
-saveUserData(String email) async {
+Future<String> saveUserData(String email) async {
+
   DocumentSnapshot data = await getColl('users').doc(email).get();
+
   var resp = data.data()! as Map<String, dynamic>;
+  print(resp);
   UserStore.initialise(resp);
+  print("HERE");
   return "Success";
 }
 
@@ -83,6 +91,98 @@ Future<GroupModel> getGroupDetails(String id) async {
   return a;
 }
 
+addFriend({required String email}) async {
+    if(email.isEmpty)
+      {
+        return "Email cannot be empty";
+      }
+  if (email == UserStore.email) {
+    return "Cant Add Self";
+  }
+  else if (UserStore.friends.keys.contains(email)) {
+    return "Already Added";
+  }
+  if (await AuthMtds().checkEmailExists(email)) {
+    CollectionReference users = getColl('users');
+    List<String> abcd = [];
+    try {
+      double a = 0;
+      await users.doc(email).set({'friends': {
+        UserStore.email : {
+          'owe': a,
+          'activity': abcd
+        }
+      }},SetOptions(merge: true));
+      await users.doc(UserStore.email).set({'friends': {
+        email : {
+          'owe': a,
+          'activity': abcd
+        }
+      }},SetOptions(merge: true));
+      UserStore.friends[email] = UserFriendModel(owe: 0, activity: abcd);
+
+    } catch (e) {
+      if (kDebugMode) {
+        print(e);
+      }
+      return "Some Error Occured";
+    }
+
+    return "Added as Friend";
+  } else {
+    return "Invalid Email";
+  }
+}
+
+createGroup({required List<String> people, required String title})
+async {
+  people.add(UserStore.email);
+  List<String> e = [];
+  String groupID = 'Group${UserStore.email}${DateTime.now()}';
+  try
+  {
+    Map<String,Map<String,double>> tmp2 = {};
+    for(String person in people)
+      {
+        Map<String,double>t = {};
+        for(String person2 in people)
+          {
+            if(person2 != person)
+              {
+                t[person2] = 0;
+              }
+          }
+        tmp2[person] = t;
+      }
+
+    await _firestore.collection('groups').doc(groupID).set({
+      'title': title,
+      'creator': UserStore.email,
+      'expenses': e,
+      'id': groupID,
+      'people': {},
+      'balances': tmp2
+    });
+    CollectionReference users = getColl('users');
+    double a = 0;
+    for(String person in people)
+    {
+
+      await users.doc(person).set({"groups":  {
+        groupID : {
+          'title': title,
+          'owe': a,
+          'groupID': groupID
+        }
+      }}, SetOptions(merge: true));
+    }
+    UserStore.groups[groupID] = UserGroupModel(title: title, owe: 0, groupID: groupID);
+    return "Success";
+  }catch(e){
+    print(e);
+    return e.toString();
+  }
+}
 
   //
   // createNonGroupExpense(Map<String, dynamic> data)
@@ -116,82 +216,9 @@ Future<GroupModel> getGroupDetails(String id) async {
   //
   // }
   //
-  // addFriend({required String email}) async {
-  //   if (email == UserStore.email) {
-  //     return "Cant Add Self";
-  //   }
-  //   else if (UserStore.friends.contains(email)) {
-  //     return "Already Added";
-  //   }
-  //   if (await AuthMtds().checkEmailExists(email)) {
-  //     CollectionReference users = getColl('users');
-  //     List<String> abcd = [];
-  //     try {
-  //       await users.doc(email).update({'friends.${UserStore.email}': {
-  //         'owe':0,
-  //         'activity':abcd
-  //       }});
-  //       await users.doc(UserStore.email).update({'friends.$email': {
-  //         'owe':0,
-  //         'activity':abcd
-  //       }});
-  //       UserStore.friends.add(email);
+
   //
-  //       await LocalStorage.instance.storeData(UserStore.getData(), 'userdata');
-  //     } catch (e) {
-  //       if (kDebugMode) {
-  //         print(e);
-  //       }
-  //       return "Some Error Occured";
-  //     }
-  //
-  //     return "Added as Friend";
-  //   } else {
-  //     return "Invalid Email";
-  //   }
-  // }
-  //
-  // createGroup({required List<String> people, required String title})
-  // async {
-  //   people.add(UserStore.email);
-  //   List<String> e = [];
-  //   String groupID = 'Group${UserStore.email}${DateTime.now()}';
-  //   try
-  //   {
-  //     Map<String,Map<String,double>> tmp2 = {};
-  //     for(String person in people)
-  //       {
-  //         Map<String,double>t = {};
-  //         for(String person2 in people)
-  //           {
-  //             if(person2 != person)
-  //               {
-  //                 t[person2] = 0;
-  //               }
-  //           }
-  //         tmp2[person] = t;
-  //       }
-  //
-  //     await _firestore.collection('groups').doc(groupID).set({
-  //       'title': title,
-  //       'creator': UserStore.email,
-  //       'people': people,
-  //       'expenses': e,
-  //       'id': groupID,
-  //       'balances': tmp2
-  //     });
-  //     CollectionReference users = getColl('users');
-  //     for(String person in people)
-  //     {
-  //       await users.doc(person).update({"groups":  FieldValue.arrayUnion([groupID])});
-  //     }
-  //     await LocalStorage.instance.storeData(UserStore.getData(), 'userdata');
-  //     return "Success";
-  //   }catch(e){
-  //     print(e);
-  //     return e.toString();
-  //   }
-  // }
+
   //
   // getGroups()
   // async {
