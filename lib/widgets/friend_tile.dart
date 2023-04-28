@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:splitwise/screens/friends/friend_detail.dart';
 import 'package:splitwise/stores/user_store.dart';
 
 import '../functions/email_to_uid.dart';
@@ -40,16 +41,21 @@ class FriendTile extends StatelessWidget {
         );
       }
 
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: ListTile(
-        leading: CircleAvatar(
-          radius: 30,
-          backgroundImage: NetworkImage('https://media.istockphoto.com/id/517188688/photo/mountain-landscape.jpg?s=612x612&w=0&k=20&c=A63koPKaCyIwQWOTFBRWXj_PwCrR4cEoOw2S9Q7yVl8='),
-        ),
-        trailing: trail,
-        title: Text(UIDN(keyo)),
+    return GestureDetector(
+      onTap: (){
+        Navigator.of(context).push(MaterialPageRoute(builder: (context) => FriendDetail( keyo: keyo,)));
+      },
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: ListTile(
+          leading: CircleAvatar(
+            radius: 30,
+            backgroundImage: NetworkImage('https://media.istockphoto.com/id/517188688/photo/mountain-landscape.jpg?s=612x612&w=0&k=20&c=A63koPKaCyIwQWOTFBRWXj_PwCrR4cEoOw2S9Q7yVl8='),
+          ),
+          trailing: trail,
+          title: Text(UIDN(keyo)),
 
+        ),
       ),
     );
   }

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:splitwise/firebase/firestore.dart';
-import 'package:splitwise/widgets/fields/expenses_tile.dart';
+import 'package:splitwise/widgets/expenses_tile.dart';
 
 import '../../models/user_groups_model.dart';
 import '../expenses/add_expense.dart';

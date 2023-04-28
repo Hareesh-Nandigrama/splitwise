@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:splitwise/models/expense_model.dart';
 import 'package:intl/intl.dart';
+import 'package:splitwise/screens/expenses/expense_detail.dart';
 import 'package:splitwise/stores/user_store.dart';
+
+import '../functions/email_to_uid.dart';
 
 class ExpenseTile extends StatelessWidget {
   final ExpenseModel expmodel;
@@ -35,7 +38,7 @@ class ExpenseTile extends StatelessWidget {
       }
     return GestureDetector(
       onTap: (){
-
+        Navigator.of(context).push(MaterialPageRoute(builder: (context) => ExpenseDetail(expModel: expmodel)));
       },
       child: Row(
         children: [
@@ -80,7 +83,7 @@ class ExpenseTile extends StatelessWidget {
                 children: [
 
                   Text(expmodel.title, style: const TextStyle(color: Colors.black, fontSize: 20),),
-                  Text('${expmodel.paidBy} Paid ${expmodel.amount}', style: const TextStyle(color: Colors.black, fontSize: 10),),
+                  Text('${UIDN(expmodel.paidBy)} Paid ${expmodel.amount}', style: const TextStyle(color: Colors.black, fontSize: 13),),
                 ],
               ),
             ),

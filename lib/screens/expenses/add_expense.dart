@@ -139,9 +139,9 @@ class _AddExpensePageState extends State<AddExpensePage> {
               }
             print(data);
             String response = '';
-            if(widget.grpModel.id.contains(UserStore.uid))
+            if(widget.grpModel.balances.keys.length == 1)
               {
-                 //response = await FireStrMtd().createNonGroupExpense(data);
+                 response = await FireStrMtd().createNonGroupExpense(data);
               }
             else
               {
