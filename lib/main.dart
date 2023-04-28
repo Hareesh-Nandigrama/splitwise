@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:splitwise/constants/colors.dart';
+import 'package:splitwise/firebase/firestore.dart';
 import 'package:splitwise/screens/authentication/login.dart';
 import 'package:splitwise/screens/authentication/signup.dart';
 import 'package:splitwise/screens/authentication/welcome.dart';

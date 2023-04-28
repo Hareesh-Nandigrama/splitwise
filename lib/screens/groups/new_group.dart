@@ -4,6 +4,7 @@ import 'package:splitwise/stores/user_store.dart';
 
 import '../../constants/colors.dart';
 import '../../firebase/firestore.dart';
+import '../../functions/email_to_uid.dart';
 import '../../functions/pop_up.dart';
 import '../../widgets/fields/fields.dart';
 
@@ -48,7 +49,7 @@ class _NewGroupPageState extends State<NewGroupPage> {
                       popUp("Cannot be empty", context, 1, 500, Colors.red);
                       return;
                     }
-                    if(UserStore.friends.keys.contains(email.text))
+                    if(UserStore.friends.keys.contains(EUID(email.text)))
                       {
                         if(people.contains(email.text))
                           {

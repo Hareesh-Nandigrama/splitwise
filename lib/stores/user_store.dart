@@ -18,6 +18,7 @@ class UserStore
     email = data['email'];
     username = data['username'];
     uid = data['uid'];
+
     List<String> temp1 = [];
 
     for(String x in data['activity'])
@@ -27,13 +28,22 @@ class UserStore
     Map<String,UserFriendModel> temp2 = {};
     for(String x in (data['friends'] as Map<String,dynamic>).keys)
     {
+
       temp2[x] = UserFriendModel.fromJson(data['friends'][x]);
+
     }
+
 
     Map<String,UserGroupModel> temp3 = {};
     for(String x in data['groups'].keys)
     {
-      temp3[x] = UserGroupModel.fromJson(data['groups'][x]);
+      try {
+        temp3[x] = UserGroupModel.fromJson(data['groups'][x]);
+      }
+      catch(e)
+    {
+      print(e);
+    }
     }
     activity = temp1;
     friends = temp2;

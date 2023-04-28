@@ -14,7 +14,7 @@ class GroupHome extends StatelessWidget {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: FutureBuilder(
-        future: FireStrMtd().saveUserData(AuthMtds().getEmail()),
+        future: FireStrMtd().saveUserData(),
         builder: (context,snapshot) {
           if(snapshot.hasData)
             {

@@ -6,11 +6,11 @@ import '../models/user_groups_model.dart';
 
 class GroupTile extends StatelessWidget {
   final UserGroupModel userGrpModel;
-  int type = 3;
   GroupTile({Key? key, required this.userGrpModel, }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    double bal = userGrpModel.owe;
     return GestureDetector(
       onTap: () {
         Navigator.of(context)
@@ -43,19 +43,19 @@ class GroupTile extends StatelessWidget {
                     userGrpModel.title,
                     style: const TextStyle(color: Colors.black, fontSize: 25),
                   ),
-                  userGrpModel.owe > 0
+                  bal > 0
                       ? Text(
-                          'You are owed $type',
+                          'You are owed $bal',
                           style: const TextStyle(color: Colors.green, fontSize: 20),
                         )
-                      : userGrpModel.owe == 0
+                      : bal == 0
                           ? const Text(
                               'settled up',
                               style:
                                   TextStyle(color: Colors.grey, fontSize: 20),
                             )
                           : Text(
-                              'You owe ${-1 * type}',
+                              'You owe ${-1 * bal}',
                               style:
                                   const TextStyle(color: Colors.orange, fontSize: 20),
                             )

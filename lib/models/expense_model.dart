@@ -24,7 +24,7 @@ class ExpenseModel {
   factory ExpenseModel.fromJson(Map<String, dynamic> json) => ExpenseModel(
     title: json["title"],
     paidBy: json["paidBy"],
-   amount: double.parse(json["amount"]),
+   amount: json["amount"],
    expenseID: json["expenseID"],
     date: DateTime.fromMillisecondsSinceEpoch(json['date'].seconds * 1000),
    owe: Map.from(json["owe"]).map((k, v) => MapEntry<String, double>(k, v)),

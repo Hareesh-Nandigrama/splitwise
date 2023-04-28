@@ -68,7 +68,7 @@ class _LoginPageState extends State<LoginPage> {
                 if(reply == 'Success')
                 {
                   print('success');
-                  await FireStrMtd().saveUserData(_emailController.text);
+                  await FireStrMtd().saveUserData();
                   Navigator.of(context).pushReplacementNamed(HomeScreen.id);
                 }
                 else

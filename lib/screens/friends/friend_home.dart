@@ -16,7 +16,7 @@ class _FriendHomeState extends State<FriendHome> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-        future: FireStrMtd().saveUserData(AuthMtds().getEmail()),
+        future: FireStrMtd().saveUserData(),
         builder: (context,snapshot) {
           if(snapshot.hasData)
           {

@@ -8,6 +8,18 @@ class AuthMtds {
     return _auth;
   }
 
+
+  getUid()
+  {
+    if(_auth.currentUser == null)
+    {
+      return "";
+    }
+    return _auth.currentUser?.uid;
+  }
+
+
+
   getEmail()
   {
     if(_auth.currentUser == null)

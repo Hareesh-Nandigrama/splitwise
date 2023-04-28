@@ -11,9 +11,9 @@ class ExpenseTile extends StatelessWidget {
   Widget build(BuildContext context) {
     double tbalance = 0;
     Widget a;
-    if (expmodel.paidBy == UserStore.email)
+    if (expmodel.paidBy == UserStore.uid)
     {
-      tbalance = expmodel.amount - expmodel.owe[UserStore.email]!;
+      tbalance = expmodel.amount - expmodel.owe[UserStore.uid]!;
       a = Column(
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
@@ -24,7 +24,7 @@ class ExpenseTile extends StatelessWidget {
     }
     else
       {
-        tbalance = expmodel.owe[UserStore.email]!;
+        tbalance = expmodel.owe[UserStore.uid]!;
         a = Column(
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [

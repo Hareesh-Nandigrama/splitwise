@@ -63,7 +63,7 @@ class _SignInPageState extends State<SignInPage> {
                 if(reply == 'Success')
                 {
                   print('success');
-                  FireStrMtd().saveUserData(_emailController.text);
+                  FireStrMtd().saveUserData();
                   Navigator.of(context).pushReplacementNamed(HomeScreen.id);
                 }
                 else

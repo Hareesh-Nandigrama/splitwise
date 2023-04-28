@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../constants/colors.dart';
+import '../../firebase/firestore.dart';
+import '../../functions/email_to_uid.dart';
 import '../../functions/pop_up.dart';
 import '../../models/group_model.dart';
 import '../../stores/user_store.dart';
@@ -51,6 +53,57 @@ class _AddExpensePageState extends State<AddExpensePage> {
     return a;
   }
 
+  void addPerson()
+  {
+    if(email.text == '')
+    {
+      popUp("Cannot be empty", context, 1, 500, Colors.red);
+      return;
+    }
+    else if(people.contains(email.text))
+    {
+      popUp("Already Added", context, 1, 500, Colors.red);
+      return;
+    }
+    else
+    {
+      if(widget.grpModel.creator == 'ADMIN__ADMIN')
+      {
+        if(UserStore.friends.containsKey(EUID(email.text)))
+        {
+          people.add(email.text);
+          tmp[email.text] = TextEditingController();
+          popUp("Added", context, 1, 500, Colors.green);
+          setState(() {});
+          return;
+
+        }
+        else
+        {
+          popUp("Not a Friend", context, 1, 500, Colors.red);
+          return;
+        }
+      }
+      else
+      {
+        if(widget.grpModel.balances.containsKey(EUID(email.text)))
+        {
+          people.add(email.text);
+          tmp[email.text] = TextEditingController();
+          popUp("Added", context, 1, 500, Colors.green);
+          setState(() {});
+          return;
+        }
+        else
+        {
+          popUp("Not Part of the Group", context, 1, 500, Colors.red);
+          return;
+        }
+      }
+    }
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -66,34 +119,33 @@ class _AddExpensePageState extends State<AddExpensePage> {
         actions: [
           IconButton(onPressed: () async {
             double x = checkSum();
-            print(x);
             if(x > 0.01 || x < -0.01)
               {
-
                 popUp("${x} amount has not been accounted correctly", context, 1, 500, Colors.red);
                 return;
               }
-            String expenseID = "Expenses${UserStore.email}${DateTime.now()}";
+            String expenseID = "Expenses${UserStore.uid}CC${DateTime.now().month}CC${DateTime.now().day}CC${DateTime.now().hour}CC${DateTime.now().minute}CC${DateTime.now().second}";
             Map<String, dynamic> data = {};
-            data['paidBy'] = UserStore.email;
+            data['paidBy'] = UserStore.uid;
             data['title'] = name.text;
-            data['amount'] = amount.text;
+            data['amount'] = double.parse(amount.text);
             data['owe'] = {};
             data['date'] = DateTime.now();
             data['expenseID'] = expenseID;
             data['groupID'] = widget.grpModel.id;
             for(var person in tmp.keys)
               {
-                data['owe'][person] = double.parse(tmp[person]!.text);
+                data['owe'][EUID(person)] = double.parse(tmp[person]!.text);
               }
+            print(data);
             String response = '';
-            if(widget.grpModel.id == UserStore.email)
+            if(widget.grpModel.id.contains(UserStore.uid))
               {
                  //response = await FireStrMtd().createNonGroupExpense(data);
               }
             else
               {
-                //response = await FireStrMtd().createGroupExpense(data);
+                response = await FireStrMtd().createGroupExpense(data);
               }
             if(response == "Success")
               {
@@ -118,35 +170,8 @@ class _AddExpensePageState extends State<AddExpensePage> {
                 InField('Amount', false, amount, 10, 0),
                 InField("Add People Involved", false, email,0,0),
                 ElevatedButton(
-                  onPressed: () async {
-                    if(email.text == '')
-                    {
-                    popUp("Cannot be empty", context, 1, 500, Colors.red);
-                    return;
-                    }
-                     if(true)
-                    {
-                      if(people.contains(email.text))
-                      {
-                        popUp("Already Added", context, 1, 500, Colors.red);
-                        email.text = '';
-                      }
-
-                      else
-                      {
-                        people.add(email.text);
-                        tmp[email.text] = TextEditingController(text: '0');
-                        setState(() {
-                          email.text = '';
-                        });
-                        popUp("Added", context, 1, 500, Colors.green);
-                      }
-                    }
-                    else
-                    {
-                      email.text = '';
-                      popUp("Not a Friend/Part of group", context, 1, 500, Colors.red);
-                    }
+                  onPressed: (){
+                    addPerson();
                   },
                   style: ElevatedButton.styleFrom(
                       minimumSize: const Size(320, 0),
