@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:splitwise/constants/colors.dart';
 
 class InField extends StatefulWidget {
-  final text;
-  final hide;
-  final control;
-  final type;
-  final typo;
-  InField(this.text, this.hide, this.control, this.type, this.typo);
+  final String text;
+  final bool hide;
+  final TextEditingController control;
+  final int type;
+  final int typo;
+  const InField(this.text, this.hide, this.control, this.type, this.typo, {super.key});
   @override
   _InFieldState createState() => _InFieldState(text,hide,control,type,typo);
 }
