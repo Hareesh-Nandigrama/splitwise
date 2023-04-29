@@ -203,7 +203,13 @@ class _AddExpensePageState extends State<AddExpensePage> {
                         padding: const EdgeInsets.all(8.0),
                         child: Row(
                           children: [
-                            Text(user),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                 Text(user == UserStore.email ?"You" :UIDN(EUID(user)), style: TextStyle(fontSize: 15),),
+                                Text(user, style: TextStyle(fontSize: 10),),
+                              ],
+                            ),
                             Expanded(child: Container(),),
                             SizedBox(
                                 width: 200,

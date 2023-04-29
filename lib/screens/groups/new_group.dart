@@ -41,7 +41,7 @@ class _NewGroupPageState extends State<NewGroupPage> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 InField('Group Name', false, group, 0, 0),
-                InField("Friend Name", false, email,0,0),
+                InField("Friend Email", false, email,0,0),
                 ElevatedButton(
                   onPressed: () async {
                     if(email.text == '')
@@ -110,17 +110,16 @@ class _NewGroupPageState extends State<NewGroupPage> {
                     for(var user in people)
                       Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: Row(
-                          children: [
-                            Text(user),
-                            Expanded(child: Container(),),
-                            IconButton(onPressed: (){
-                              people.remove(user);
-                              setState(() {
-                              });
-                            }, icon: const Icon(Icons.clear, color: Colors.red,))
-                          ],
-                        ),
+                        child: ListTile(
+                          title: Text(UIDN(EUID(user))),
+                          subtitle: Text(user),
+                          trailing: IconButton(onPressed: (){
+                            people.remove(user);
+                            setState(() {
+                            });
+                          }, icon: const Icon(Icons.clear, color: Colors.red,)),
+                        )
+
                       )
                   ],
                 )
