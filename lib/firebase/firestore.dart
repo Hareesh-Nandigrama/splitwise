@@ -132,7 +132,7 @@ class FireStrMtd {
         await groups.doc(UserStore.uid).set({
           'balances': {
             UserStore.uid: {
-              email: a,
+              EUID(email): a,
             }
           }
         }, SetOptions(merge: true));

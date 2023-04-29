@@ -32,25 +32,27 @@ class _HomeScreenState extends State<HomeScreen> {
 
     return SafeArea(
       child: Observer(builder: (context) {
-        return Scaffold(
-          appBar: AppBar(
-            leading: Container(),
-            leadingWidth: 0,
-            centerTitle: true,
-            title: Text(
-              commonStore.page == Pages.account ? "Account" : ""
+        return SafeArea(
+          child: Scaffold(
+            appBar: AppBar(
+              leading: Container(),
+              leadingWidth: 0,
+              centerTitle: true,
+              title: Text(
+                commonStore.page == Pages.account ? "Account" : ""
+              ),
+              actions: [
+                commonStore.page == Pages.groups ? IconButton(onPressed: (){
+                  Navigator.of(context).pushNamed(NewGroupPage.id);
+                }, icon: Icon(Icons.group_add)):
+                commonStore.page == Pages.friends ? IconButton(onPressed: (){
+                  Navigator.of(context).pushNamed(AddFriendPage.id);
+                }, icon: Icon(Icons.person_add_alt_1)):Container()
+              ],
             ),
-            actions: [
-              commonStore.page == Pages.groups ? IconButton(onPressed: (){
-                Navigator.of(context).pushNamed(NewGroupPage.id);
-              }, icon: Icon(Icons.group_add)):
-              commonStore.page == Pages.friends ? IconButton(onPressed: (){
-                Navigator.of(context).pushNamed(AddFriendPage.id);
-              }, icon: Icon(Icons.person_add_alt_1)):Container()
-            ],
+            body: tabs[commonStore.page],
+            bottomNavigationBar: const BottomNavBar(),
           ),
-          body: tabs[commonStore.page],
-          bottomNavigationBar: const BottomNavBar(),
         );
       }),
     );

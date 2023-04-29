@@ -106,130 +106,132 @@ class _AddExpensePageState extends State<AddExpensePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          icon: const Icon(Icons.chevron_left_sharp),
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBar(
+          leading: IconButton(
+            icon: const Icon(Icons.chevron_left_sharp),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+          centerTitle: true,
+          title: const Text("Add Expense"),
+          actions: [
+            IconButton(onPressed: () async {
+              double x = checkSum();
+              if(x > 0.01 || x < -0.01)
+                {
+                  popUp("$x amount has not been accounted correctly", context, 1, 500, Colors.red);
+                  return;
+                }
+              String expenseID = "Expenses${UserStore.uid}CC${DateTime.now().month}CC${DateTime.now().day}CC${DateTime.now().hour}CC${DateTime.now().minute}CC${DateTime.now().second}";
+              Map<String, dynamic> data = {};
+              data['paidBy'] = UserStore.uid;
+              data['title'] = name.text;
+              data['amount'] = double.parse(amount.text);
+              data['owe'] = {};
+              data['date'] = DateTime.now();
+              data['expenseID'] = expenseID;
+              data['groupID'] = widget.grpModel.id;
+              for(var person in tmp.keys)
+                {
+                  data['owe'][EUID(person)] = double.parse(tmp[person]!.text);
+                }
+              String response = '';
+              if(widget.grpModel.balances.keys.length == 1)
+                {
+                   response = await FireStrMtd().createNonGroupExpense(data);
+                }
+              else
+                {
+                  response = await FireStrMtd().createGroupExpense(data);
+                }
+
+              if (!mounted) return;
+              if(response == "Success")
+                {
+                  Navigator.of(context).pop();
+                  popUp("Expense Added", context, 1, 500, Colors.green);
+                }
+              else
+                {
+                  popUp(response, context, 1, 500, Colors.red);
+                }
+            }, icon: const Icon(Icons.save))
+          ],
         ),
-        centerTitle: true,
-        title: const Text("Add Expense"),
-        actions: [
-          IconButton(onPressed: () async {
-            double x = checkSum();
-            if(x > 0.01 || x < -0.01)
-              {
-                popUp("$x amount has not been accounted correctly", context, 1, 500, Colors.red);
-                return;
-              }
-            String expenseID = "Expenses${UserStore.uid}CC${DateTime.now().month}CC${DateTime.now().day}CC${DateTime.now().hour}CC${DateTime.now().minute}CC${DateTime.now().second}";
-            Map<String, dynamic> data = {};
-            data['paidBy'] = UserStore.uid;
-            data['title'] = name.text;
-            data['amount'] = double.parse(amount.text);
-            data['owe'] = {};
-            data['date'] = DateTime.now();
-            data['expenseID'] = expenseID;
-            data['groupID'] = widget.grpModel.id;
-            for(var person in tmp.keys)
-              {
-                data['owe'][EUID(person)] = double.parse(tmp[person]!.text);
-              }
-            String response = '';
-            if(widget.grpModel.balances.keys.length == 1)
-              {
-                 response = await FireStrMtd().createNonGroupExpense(data);
-              }
-            else
-              {
-                response = await FireStrMtd().createGroupExpense(data);
-              }
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Center(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  InField('Expense Title', false, name, 0, 0),
+                  InField('Amount', false, amount, 10, 0),
+                  InField("Add People Involved", false, email,0,0),
+                  ElevatedButton(
+                    onPressed: (){
+                      addPerson();
+                    },
+                    style: ElevatedButton.styleFrom(
+                        minimumSize: const Size(320, 0),
+                        padding: const EdgeInsets.all(10),
+                        backgroundColor: kgreen),
+                    child:
+                    const Text('Add Friend'),
+                  ),
+                  ElevatedButton(
+                    onPressed: () async {
+                      split();
+                    },
+                    style: ElevatedButton.styleFrom(
+                        minimumSize: const Size(320, 0),
+                        padding: const EdgeInsets.all(10),
+                        backgroundColor: kgreen),
+                    child:
+                    const Text('Split Equally'),
+                  ),
+                  Column(
+                    children: [
+                      const Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Text("People Added", style: TextStyle(color: Colors.black),),
+                      ),
+                      for(var user in people)
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                            children: [
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                   Text(user == UserStore.email ?"You" :UIDN(EUID(user)), style: TextStyle(fontSize: 15),),
+                                  Text(user, style: TextStyle(fontSize: 10),),
+                                ],
+                              ),
+                              Expanded(child: Container(),),
+                              SizedBox(
+                                  width: 200,
+                                  child: TextFormField(controller: tmp[user], )),
+                              IconButton(onPressed: (){
+                                if(user != UserStore.email)
+                                  {
+                                    people.remove(user);
+                                    tmp.remove(user);
+                                    setState(() {
+                                    });
+                                  }
 
-            if (!mounted) return;
-            if(response == "Success")
-              {
-                Navigator.of(context).pop();
-                popUp("Expense Added", context, 1, 500, Colors.green);
-              }
-            else
-              {
-                popUp(response, context, 1, 500, Colors.red);
-              }
-          }, icon: const Icon(Icons.save))
-        ],
-      ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(10.0),
-          child: Center(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                InField('Expense Title', false, name, 0, 0),
-                InField('Amount', false, amount, 10, 0),
-                InField("Add People Involved", false, email,0,0),
-                ElevatedButton(
-                  onPressed: (){
-                    addPerson();
-                  },
-                  style: ElevatedButton.styleFrom(
-                      minimumSize: const Size(320, 0),
-                      padding: const EdgeInsets.all(10),
-                      backgroundColor: kgreen),
-                  child:
-                  const Text('Add Friend'),
-                ),
-                ElevatedButton(
-                  onPressed: () async {
-                    split();
-                  },
-                  style: ElevatedButton.styleFrom(
-                      minimumSize: const Size(320, 0),
-                      padding: const EdgeInsets.all(10),
-                      backgroundColor: kgreen),
-                  child:
-                  const Text('Split Equally'),
-                ),
-                Column(
-                  children: [
-                    const Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: Text("People Added", style: TextStyle(color: Colors.black),),
-                    ),
-                    for(var user in people)
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Row(
-                          children: [
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                 Text(user == UserStore.email ?"You" :UIDN(EUID(user)), style: TextStyle(fontSize: 15),),
-                                Text(user, style: TextStyle(fontSize: 10),),
-                              ],
-                            ),
-                            Expanded(child: Container(),),
-                            SizedBox(
-                                width: 200,
-                                child: TextFormField(controller: tmp[user], )),
-                            IconButton(onPressed: (){
-                              if(user != UserStore.email)
-                                {
-                                  people.remove(user);
-                                  tmp.remove(user);
-                                  setState(() {
-                                  });
-                                }
-
-                            }, icon: const Icon(Icons.clear, color: Colors.red,))
-                          ],
-                        ),
-                      )
-                  ],
-                )
-              ],
+                              }, icon: const Icon(Icons.clear, color: Colors.red,))
+                            ],
+                          ),
+                        )
+                    ],
+                  )
+                ],
+              ),
             ),
           ),
         ),
