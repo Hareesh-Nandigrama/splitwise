@@ -6,11 +6,11 @@ import 'dart:convert';
 
 class ExpenseModel {
   ExpenseModel({
-    required this.title,
-    required this.paidBy,
+    required this.title, //group name
+    required this.paidBy, //creator
    required this.amount,
    required this.expenseID,
-    required this.date,
+    required this.date,    //date created
     required this.owe,
     required this.groupID,
   });

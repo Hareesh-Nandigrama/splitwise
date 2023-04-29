@@ -45,7 +45,7 @@ class GroupTile extends StatelessWidget {
                   ),
                   bal > 0
                       ? Text(
-                          'You are owed $bal',
+                          'You are owed \u{20B9}${bal.toStringAsFixed(2)}',
                           style: const TextStyle(color: Colors.green, fontSize: 20),
                         )
                       : bal == 0
@@ -55,7 +55,7 @@ class GroupTile extends StatelessWidget {
                                   TextStyle(color: Colors.grey, fontSize: 20),
                             )
                           : Text(
-                              'You owe ${-1 * bal}',
+                              'You owe \u{20B9}${(-1*bal).toStringAsFixed(2)}',
                               style:
                                   const TextStyle(color: Colors.orange, fontSize: 20),
                             )

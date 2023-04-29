@@ -25,7 +25,7 @@ class ExpenseDetail extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children:  [
                       Text(expModel.title, style: TextStyle(fontSize: 25),),
-                      Text('\u{20B9}${expModel.amount}',style: TextStyle(fontSize: 35),),
+                      Text('\u{20B9}${expModel.amount.toStringAsFixed(2)}',style: TextStyle(fontSize: 35),),
                       Text(DateFormat('yMMMMd').format(expModel.date),style: TextStyle(fontSize: 15),),
                     ],
                   ),
@@ -49,10 +49,10 @@ class ExpenseDetail extends StatelessWidget {
                   for(var person in expModel.owe.keys)
                       person != UserStore.uid ? Padding(
                         padding: const EdgeInsets.symmetric(vertical: 2.0),
-                        child: Text('${UIDN(person)} owes \u{20B9}${expModel.owe[person]}', style: TextStyle(color: Colors.black54),),
+                        child: Text('${UIDN(person)} owes \u{20B9}${expModel.owe[person]?.toStringAsFixed(2)}', style: TextStyle(color: Colors.black54),),
                       ) : Padding(
                         padding: const EdgeInsets.symmetric(vertical: 2.0),
-                        child: Text('You owe \u{20B9}${expModel.owe[person]}',style: TextStyle(color: Colors.black54),),
+                        child: Text('You owe \u{20B9}${expModel.owe[person]?.toStringAsFixed(2)}',style: TextStyle(color: Colors.black54),),
                       )
 
                 ],

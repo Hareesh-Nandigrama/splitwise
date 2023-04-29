@@ -26,7 +26,7 @@ class FriendTile extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text('Owes you', style: TextStyle(color: Colors.green),),
-            Text(owes.toString(), style: TextStyle(color: Colors.green),),
+            Text('\u{20B9}${owes.toStringAsFixed(2)}', style: TextStyle(color: Colors.green),),
           ],
         );
       }
@@ -36,7 +36,7 @@ class FriendTile extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text('You Owe', style: TextStyle(color: Colors.orange),),
-            Text((-1*owes).toString(), style: TextStyle(color: Colors.orange),),
+            Text('\u{20B9}${(-1*owes).toStringAsFixed(2)}', style: TextStyle(color: Colors.orange),),
           ],
         );
       }

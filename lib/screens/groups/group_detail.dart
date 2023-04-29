@@ -38,7 +38,7 @@ class _GroupDetailsState extends State<GroupDetails> {
                 children: [
                   tbalance > 0
                       ? Text(
-                    'You are owed $tbalance overall',
+                    'You are owed ${tbalance.toStringAsFixed(2)} overall',
                     style: const TextStyle(color: Colors.green, fontSize: 20),
                   )
                       : tbalance == 0
@@ -48,7 +48,7 @@ class _GroupDetailsState extends State<GroupDetails> {
                     TextStyle(color: Colors.grey, fontSize: 20),
                   )
                       : Text(
-                    'You owe ${-1 * tbalance} overall',
+                    'You owe ${(-1 * tbalance).toStringAsFixed(2)} overall',
                     style: const TextStyle(
                         color: Colors.orange, fontSize: 20),
                   ),
@@ -68,42 +68,44 @@ class _GroupDetailsState extends State<GroupDetails> {
               ),
               title: Text(widget.userGrpModel.title),
             ),
-            body: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        tbalance > 0
-                            ? Text(
-                                'You are owed $tbalance overall',
-                                style: const TextStyle(color: Colors.green, fontSize: 20),
-                              )
-                            : tbalance == 0
-                                ? const Text(
-                                    'settled up',
-                                    style:
-                                        TextStyle(color: Colors.grey, fontSize: 20),
-                                  )
-                                : Text(
-                                    'You owe ${-1 * tbalance} overall',
-                                    style: const TextStyle(
-                                        color: Colors.orange, fontSize: 20),
-                                  ),
-                        ElevatedButton(
-                          onPressed: () {},
-                          style: ElevatedButton.styleFrom(
-                              minimumSize: const Size(320, 0),
-                              padding: const EdgeInsets.all(10),
-                              backgroundColor: Colors.orange),
-                          child: const Text('Settle up'),
-                        ),
-                        for (var expmodel in snapshot.data!.expenses)
-                          ExpenseTile(
-                            expmodel: expmodel,
-                          )
-                      ],
+            body: SingleChildScrollView(
+              child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          tbalance > 0
+                              ? Text(
+                                  'You are owed \u{20B9}${tbalance.toStringAsFixed(2)} overall',
+                                  style: const TextStyle(color: Colors.green, fontSize: 20),
+                                )
+                              : tbalance == 0
+                                  ? const Text(
+                                      'settled up',
+                                      style:
+                                          TextStyle(color: Colors.grey, fontSize: 20),
+                                    )
+                                  : Text(
+                                      'You owe \u{20B9}${(-1 * tbalance).toStringAsFixed(2)} overall',
+                                      style: const TextStyle(
+                                          color: Colors.orange, fontSize: 20),
+                                    ),
+                          ElevatedButton(
+                            onPressed: () {},
+                            style: ElevatedButton.styleFrom(
+                                minimumSize: const Size(320, 0),
+                                padding: const EdgeInsets.all(10),
+                                backgroundColor: Colors.orange),
+                            child: const Text('Settle up'),
+                          ),
+                          for (var expmodel in snapshot.data!.expenses)
+                            ExpenseTile(
+                              expmodel: expmodel,
+                            )
+                        ],
+                      ),
                     ),
-                  ),
+            ),
             floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
             floatingActionButton: ElevatedButton(
                 onPressed: () {

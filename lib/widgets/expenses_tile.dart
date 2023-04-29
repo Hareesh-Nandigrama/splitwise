@@ -21,7 +21,7 @@ class ExpenseTile extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
           const Text('You Lent', style: TextStyle(color: Colors.green, fontSize: 10),),
-          Text(tbalance.toString(), style: const TextStyle(color: Colors.green, fontSize: 15),),
+          Text('\u{20B9}${tbalance.toStringAsFixed(2)}', style: const TextStyle(color: Colors.green, fontSize: 15),),
         ],
       );
     }
@@ -32,7 +32,7 @@ class ExpenseTile extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             const Text('You Took', style: TextStyle(color: Colors.orange, fontSize: 10),),
-            Text(tbalance.toString(), style: const TextStyle(color: Colors.orange, fontSize: 15),),
+            Text('\u{20B9}${tbalance.toStringAsFixed(2)}', style: const TextStyle(color: Colors.orange, fontSize: 15),),
           ],
         );
       }
@@ -83,7 +83,7 @@ class ExpenseTile extends StatelessWidget {
                 children: [
 
                   Text(expmodel.title, style: const TextStyle(color: Colors.black, fontSize: 20),),
-                  Text('${UIDN(expmodel.paidBy)} Paid ${expmodel.amount}', style: const TextStyle(color: Colors.black, fontSize: 13),),
+                  Text('${expmodel.paidBy == UserStore.uid?"You":UIDN(expmodel.paidBy)} Paid \u{20B9}${expmodel.amount.toStringAsFixed(2)}', style: const TextStyle(color: Colors.black, fontSize: 13),),
                 ],
               ),
             ),

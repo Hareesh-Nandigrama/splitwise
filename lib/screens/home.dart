@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:provider/provider.dart';
-import 'package:splitwise/screens/groups/group_home.dart';
-import 'package:splitwise/screens/profile.dart';
-import 'package:splitwise/widgets/nav_bar.dart';
 import '../constants/enums.dart';
 import '../stores/common_store.dart';
+import '../widgets/nav_bar.dart';
+import 'activity.dart';
 import 'friends/add_friend.dart';
 import 'friends/friend_home.dart';
+import 'groups/group_home.dart';
 import 'groups/new_group.dart';
+import 'profile.dart';
 
 class HomeScreen extends StatefulWidget {
   static const String id = '/home';
@@ -23,7 +24,7 @@ class _HomeScreenState extends State<HomeScreen> {
     Pages.account: ProfilePage(),
     Pages.groups: GroupHome(),
     Pages.friends: FriendHome(),
-    Pages.activity: Container(),
+    Pages.activity: ActivityPage(),
   };
   @override
   Widget build(BuildContext context) {
@@ -37,7 +38,6 @@ class _HomeScreenState extends State<HomeScreen> {
             leadingWidth: 0,
             centerTitle: true,
             title: Text(
-              commonStore.page == Pages.activity ? "Activity" :
               commonStore.page == Pages.account ? "Account" : ""
             ),
             actions: [

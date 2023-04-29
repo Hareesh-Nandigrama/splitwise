@@ -140,7 +140,6 @@ class _AddExpensePageState extends State<AddExpensePage> {
             String response = '';
             if(widget.grpModel.balances.keys.length == 1)
               {
-                 data['groupID'] = "Non-group";
                  response = await FireStrMtd().createNonGroupExpense(data);
               }
             else

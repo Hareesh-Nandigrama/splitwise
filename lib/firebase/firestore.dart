@@ -45,7 +45,9 @@ class FireStrMtd {
       'activity': tmp,
     });
 
-    await getColl('users').doc('mapping').set({email: uid, uid: username}, SetOptions(merge: true));
+    await getColl('users')
+        .doc('mapping')
+        .set({email: uid, uid: username}, SetOptions(merge: true));
 
     await getColl('groups').doc(uid).set({
       'id': uid,
@@ -176,16 +178,28 @@ class FireStrMtd {
 
       await getColl('groups').doc(groupID).set({
         'title': title,
-        'creator': UserStore.email,
+        'creator': UserStore.uid,
         'expenses': e,
         'id': groupID,
         'people': {},
         'balances': tmp2
       });
+
+      await getColl('expenses').doc('Group$groupID').set(ExpenseModel(
+          title: title,
+          paidBy: UserStore.uid,
+          amount: 0,
+          expenseID: 'Group$groupID',
+          date: DateTime.now(),
+          owe: {},
+          groupID: groupID)
+          .toJson());
+
       CollectionReference users = getColl('users');
       double a = 0;
       for (String person in people) {
         await users.doc(EUID(person)).set({
+          'activity': FieldValue.arrayUnion(['Group$groupID']),
           "groups": {
             groupID: {'title': title, 'owe': a, 'groupID': groupID}
           }
@@ -193,6 +207,8 @@ class FireStrMtd {
       }
       UserStore.groups[groupID] =
           UserGroupModel(title: title, owe: 0, groupID: groupID);
+
+
       return "Success";
     } catch (e) {
       return e.toString();
@@ -292,26 +308,41 @@ class FireStrMtd {
       if (person != UserStore.uid) {
         await clrf.doc(person).update({
           'expenses': FieldValue.arrayUnion([data['expenseID']]),
-          'balances.$person.${UserStore.uid}': FieldValue.increment(data['owe'][person] * -1),
+          'balances.$person.${UserStore.uid}':
+              FieldValue.increment(data['owe'][person] * -1),
         });
-        input['balances.${UserStore.uid}.$person'] = FieldValue.increment(data['owe'][person]);
+        input['balances.${UserStore.uid}.$person'] =
+            FieldValue.increment(data['owe'][person]);
       }
     }
 
-    await clrf.doc(data['groupID']).update(input);
+    await clrf.doc(UserStore.uid).update(input);
     return "Success";
   }
 
-  Future<List<ExpenseModel>> getFriendExpenses(String friend)
-  async {
+  Future<List<ExpenseModel>> getFriendExpenses(String friend) async {
     CollectionReference clrf = getColl('expenses');
-        List<ExpenseModel> e = [];
-        for (String x in UserStore.friends[friend]!.activity) {
-          DocumentSnapshot data2 = await clrf.doc(x).get();
-          var resp2 = data2.data()! as Map<String, dynamic>;
-          e.add(ExpenseModel.fromJson(resp2));
-        }
+    List<ExpenseModel> e = [];
+    for (String x in UserStore.friends[friend]!.activity) {
+      DocumentSnapshot data2 = await clrf.doc(x).get();
+      var resp2 = data2.data()! as Map<String, dynamic>;
+      e.add(ExpenseModel.fromJson(resp2));
+    }
 
     return e;
+  }
+
+  Future<List<ExpenseModel>> getActivity()
+  async {
+    CollectionReference clrf = getColl('expenses');
+    List<ExpenseModel> e = [];
+    for (String x in UserStore.activity) {
+      DocumentSnapshot data2 = await clrf.doc(x).get();
+      var resp2 = data2.data()! as Map<String, dynamic>;
+      e.add(ExpenseModel.fromJson(resp2));
+    }
+
+    return e;
+
   }
 }
