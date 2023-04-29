@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:splitwise/models/group_model.dart';
-
 import '../../functions/email_to_uid.dart';
+import '../../models/group_model.dart';
 
 class BalancesPage extends StatefulWidget {
   final GroupModel model;
@@ -28,7 +27,7 @@ class _BalancesPageState extends State<BalancesPage> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          title: Text('Balances'),
+          title: const Text('Balances'),
         ),
         body: SingleChildScrollView(
           child: ExpansionPanelList(
@@ -44,22 +43,28 @@ class _BalancesPageState extends State<BalancesPage> {
                       return Center(
                         child: RichText(
                           text: TextSpan(
-                            style: const TextStyle(color: Colors.black, fontSize: 20),
+                            style: const TextStyle(
+                                color: Colors.black, fontSize: 20),
                             children: <TextSpan>[
                               TextSpan(
                                 text: UIDN(people[i]),
                               ),
                               TextSpan(
-                                  text: totals[i] > 0 ? ' gets back ' : totals[i] < 0 ?' owes ' : ' is settled '),
+                                  text: totals[i] > 0
+                                      ? ' gets back '
+                                      : totals[i] < 0
+                                          ? ' owes '
+                                          : ' is settled '),
                               TextSpan(
-                                  text:
-                                  totals[i] != 0 ? '\u{20B9}${totals[i].abs().toStringAsFixed(2)}' : '',
+                                  text: totals[i] != 0
+                                      ? '\u{20B9}${totals[i].abs().toStringAsFixed(2)}'
+                                      : '',
                                   style: TextStyle(
                                       color: totals[i] > 0
                                           ? Colors.green
                                           : Colors.orange)),
-                              TextSpan(
-                                text: 'in total',
+                              const TextSpan(
+                                text: ' in total',
                               ),
                             ],
                           ),
@@ -75,25 +80,44 @@ class _BalancesPageState extends State<BalancesPage> {
                             padding: const EdgeInsets.all(8.0),
                             child: RichText(
                               text: TextSpan(
-                                style:
-                                    const TextStyle(color: Colors.black, fontSize: 20),
+                                style: const TextStyle(
+                                    color: Colors.black, fontSize: 20),
                                 children: <TextSpan>[
                                   TextSpan(
                                     text: UIDN(person),
                                   ),
                                   TextSpan(
-                                      text: widget.model.balances[people[i]]![person]! > 0
+                                      text: widget.model.balances[people[i]]![
+                                                  person]! >
+                                              0
                                           ? ' owes '
-                                          : ' gets back '),
+                                          : widget.model.balances[people[i]]![
+                                                      person]! <
+                                                  0
+                                              ? ' gets back '
+                                              : ' is settled up'),
                                   TextSpan(
-                                      text:
-                                          '\u{20B9}${widget.model.balances[people[i]]![person]!.abs().toStringAsFixed(2)}',
+                                      text: widget.model.balances[people[i]]![
+                                                  person]! !=
+                                              0
+                                          ? '\u{20B9}${widget.model.balances[people[i]]![person]!.abs().toStringAsFixed(2)}'
+                                          : '',
                                       style: TextStyle(
-                                          color: widget.model.balances[people[i]]![person]! > 0
+                                          color: widget.model.balances[
+                                                      people[i]]![person]! >
+                                                  0
                                               ? Colors.green
                                               : Colors.orange)),
                                   TextSpan(
-                                    text: widget.model.balances[people[i]]![person]! > 0 ?' to ${UIDN(people[i])}' :' from ${UIDN(people[i])}' ,
+                                    text: widget.model
+                                                .balances[people[i]]![person]! >
+                                            0
+                                        ? ' to ${UIDN(people[i])}'
+                                        : widget.model.balances[people[i]]![
+                                                    person]! <
+                                                0
+                                            ? ' from ${UIDN(people[i])}'
+                                            : ' with ${UIDN(people[i])}',
                                   ),
                                 ],
                               ),

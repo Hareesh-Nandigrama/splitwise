@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:splitwise/firebase/firestore.dart';
+import 'package:splitwise/screens/groups/settle_up_page.dart';
 import 'package:splitwise/widgets/expenses_tile.dart';
 
 import '../../models/user_groups_model.dart';
 import '../expenses/add_expense.dart';
-import 'balances.dart';
+import 'balances_page.dart';
 
 class GroupDetails extends StatefulWidget {
   final UserGroupModel userGrpModel;
@@ -98,7 +99,9 @@ class _GroupDetailsState extends State<GroupDetails> {
                               children: [
                                 Expanded(
                                   child: ElevatedButton(
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      Navigator.of(context).push(MaterialPageRoute(builder: (context) => SettleUpPage(model: snapshot.data!)));
+                                    },
                                     style: ElevatedButton.styleFrom(
                                         padding: const EdgeInsets.all(10),
                                         backgroundColor: Colors.orange),
