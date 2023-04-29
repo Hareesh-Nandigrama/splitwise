@@ -12,6 +12,7 @@ class ExpenseModel {
    required this.expenseID,
     required this.date,
     required this.owe,
+    required this.groupID,
   });
 
   String title;
@@ -19,6 +20,7 @@ class ExpenseModel {
   double amount;
   String expenseID;
   DateTime date;
+  String groupID;
   Map<String, double> owe;
 
   factory ExpenseModel.fromJson(Map<String, dynamic> json) => ExpenseModel(
@@ -26,6 +28,7 @@ class ExpenseModel {
     paidBy: json["paidBy"],
    amount: json["amount"],
    expenseID: json["expenseID"],
+    groupID: json["groupID"],
     date: DateTime.fromMillisecondsSinceEpoch(json['date'].seconds * 1000),
    owe: Map.from(json["owe"]).map((k, v) => MapEntry<String, double>(k, v)),
   );
@@ -36,6 +39,7 @@ class ExpenseModel {
     "amount": amount,
     "expenseID": expenseID,
     "date": date,
+    "groupID": groupID,
     "owe": Map.from(owe).map((k, v) => MapEntry<String, dynamic>(k, v)),
   };
 }

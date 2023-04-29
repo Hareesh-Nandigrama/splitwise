@@ -1,11 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
-import 'package:splitwise/models/user_friends_model.dart';
-import 'package:splitwise/models/user_groups_model.dart';
-import 'package:splitwise/stores/mapping_store.dart';
 import '../functions/email_to_uid.dart';
 import '../models/expense_model.dart';
 import '../models/group_model.dart';
+import '../models/user_friends_model.dart';
+import '../models/user_groups_model.dart';
+import '../stores/mapping_store.dart';
 import '../stores/user_store.dart';
 import 'auth.dart';
 
@@ -307,7 +307,7 @@ class FireStrMtd {
     CollectionReference clrf = getColl('expenses');
         List<ExpenseModel> e = [];
         for (String x in UserStore.friends[friend]!.activity) {
-          DocumentSnapshot data2 = await getColl('expenses').doc(x).get();
+          DocumentSnapshot data2 = await clrf.doc(x).get();
           var resp2 = data2.data()! as Map<String, dynamic>;
           e.add(ExpenseModel.fromJson(resp2));
         }
@@ -315,70 +315,3 @@ class FireStrMtd {
     return e;
   }
 }
-
-
-
-//
-
-//
-// getGroups()
-// async {
-//   try
-//   {
-//     DocumentSnapshot data = await getColl('users').doc(UserStore.email).get();
-//     var resp = data.data()! as Map<String, dynamic>;
-//     Map<String,GroupModel> answer = {};
-//     for(var tmp in resp['groups'])
-//     {
-//       answer[tmp] = GroupModel(title: 'title', people: [], creator: ' ', expenses: [], id: '');
-//     }
-//     for(String groupID in answer.keys) {
-//       DocumentSnapshot data = await getColl('groups').doc(groupID).get();
-//       var resp = data.data()! as Map<String, dynamic>;
-//
-//       if(!resp.containsKey('people'))
-//         {
-//           resp['people'] = UserStore.friends;
-//         }
-//       answer[groupID] = GroupModel.fromJson(resp);
-//     }
-//     print(answer);
-//     return answer;
-//   }
-//   catch(e)
-//   {
-//     throw Exception('Error');
-//   }
-//
-// }
-//
-// Future<Map<String, ExpenseModel>> getGroupExpenses(GroupModel groupModel)
-// async {
-//   try
-//   {
-//     Map<String,ExpenseModel> answer = {};
-//
-//     for(String expsnseID in groupModel.expenses)
-//       {
-//         DocumentSnapshot data = await getColl('expenses').doc(expsnseID).get();
-//         print('apple');
-//         var resp = data.data()! as Map<String, dynamic>;
-//         print(resp);
-//         answer[expsnseID] = ExpenseModel.fromJson(resp);
-//         print("cat");
-//       }
-//     return answer;
-//   }
-//   catch(e)
-//   {
-//     throw Exception('Error');
-//   }
-//
-// }
-//
-
-//
-// initializeStores()
-// {
-//
-// }

@@ -121,7 +121,7 @@ class _AddExpensePageState extends State<AddExpensePage> {
             double x = checkSum();
             if(x > 0.01 || x < -0.01)
               {
-                popUp("${x} amount has not been accounted correctly", context, 1, 500, Colors.red);
+                popUp("$x amount has not been accounted correctly", context, 1, 500, Colors.red);
                 return;
               }
             String expenseID = "Expenses${UserStore.uid}CC${DateTime.now().month}CC${DateTime.now().day}CC${DateTime.now().hour}CC${DateTime.now().minute}CC${DateTime.now().second}";
@@ -137,16 +137,18 @@ class _AddExpensePageState extends State<AddExpensePage> {
               {
                 data['owe'][EUID(person)] = double.parse(tmp[person]!.text);
               }
-            print(data);
             String response = '';
             if(widget.grpModel.balances.keys.length == 1)
               {
+                 data['groupID'] = "Non-group";
                  response = await FireStrMtd().createNonGroupExpense(data);
               }
             else
               {
                 response = await FireStrMtd().createGroupExpense(data);
               }
+
+            if (!mounted) return;
             if(response == "Success")
               {
                 Navigator.of(context).pop();
