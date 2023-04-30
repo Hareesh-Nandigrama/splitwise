@@ -24,6 +24,8 @@ abstract class _CommonStore with Store {
   @action
   void setPage(Pages p) {
     page = p;
+    type = "All";
+    type2 = "All";
   }
 
   @action

@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 
 import '../../stores/common_store.dart';
 
-class FilterBar extends StatelessWidget {
+class FilterBar extends StatefulWidget {
   final List<String> items;
   final String hintText;
   final int? index;
@@ -17,6 +17,11 @@ class FilterBar extends StatelessWidget {
   });
 
   @override
+  State<FilterBar> createState() => _FilterBarState();
+}
+
+class _FilterBarState extends State<FilterBar> {
+  @override
   Widget build(BuildContext context) {
     var commonStore = context.read<CommonStore>();
 
@@ -26,7 +31,7 @@ class FilterBar extends StatelessWidget {
           padding: const EdgeInsets.all(8.0),
           child: DropdownButtonFormField(
             menuMaxHeight: 400,
-            value: index == 0 ? commonStore.type : commonStore.type2,
+            value: widget.index == 0 ? commonStore.type : commonStore.type2,
             isExpanded: true,
             style: TextStyle(color: Colors.black,),
             decoration: InputDecoration(
@@ -35,7 +40,7 @@ class FilterBar extends StatelessWidget {
                 text: TextSpan(
                   children: [
                     TextSpan(
-                      text: hintText,
+                      text: widget.hintText,
                       style: TextStyle(color: Colors.black),
                     ),
                   ],
@@ -78,16 +83,16 @@ class FilterBar extends StatelessWidget {
             elevation: 16,
             //style: headline6,
             onChanged: (String? value) {
-              if(index == 1)
+              if(widget.index == 1)
                 {
                   commonStore.type2 = value!;
                 }
-              else if(index == 0)
+              else if(widget.index == 0)
                 {
                   commonStore.type = value!;
                 }
             },
-            items: items.map<DropdownMenuItem<String>>((String value) {
+            items: widget.items.map<DropdownMenuItem<String>>((String value) {
               return DropdownMenuItem<String>(
                 value: value,
                 child: Text(value),

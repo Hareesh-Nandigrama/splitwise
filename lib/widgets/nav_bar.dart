@@ -26,8 +26,6 @@ class BottomNavBar extends StatelessWidget {
                   GestureDetector(
                       onTap: (){
                         commonStore.setPage(Pages.groups);
-                        commonStore.type == 'All';
-                        commonStore.type2 = 'All';
                         },
                       child: Column(
                         children: [
