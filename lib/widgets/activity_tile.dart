@@ -16,9 +16,13 @@ class ActivityTile extends StatelessWidget {
         leading: SizedBox(
           height: 50,
           width: 50,
-          child: Container(
-            color: Colors.red,
-          ),
+          child: expmodel.type == 'Food' ? Image.asset('assets/Images/food.png') :
+          expmodel.type == 'Shopping' ? Image.asset('assets/Images/shopping.png') :
+          expmodel.type == 'Travel' ? Image.asset('assets/Images/car.png') :
+          expmodel.type == 'Movies' ? Image.asset('assets/Images/cinema.png') :
+          expmodel.type == 'settle' ? Image.asset('assets/Images/cash.png') :
+
+          Image.asset('assets/Images/others.png')
         ),
         title: RichText(
           text: TextSpan(
@@ -62,11 +66,14 @@ class ActivityTile extends StatelessWidget {
       {
         return ListTile(
           leading: SizedBox(
-            height: 50,
-            width: 50,
-            child: Container(
-              child: Icon(Icons.attach_money, color: Colors.green,),
-            ),
+              height: 50,
+              width: 50,
+              child: expmodel.type == 'Food' ? Image.asset('assets/Images/food.png') :
+              expmodel.type == 'Shopping' ? Image.asset('assets/Images/shopping.png') :
+              expmodel.type == 'Travel' ? Image.asset('assets/Images/car.png') :
+              expmodel.type == 'Movies' ? Image.asset('assets/Images/cinema.png') :
+              expmodel.type == 'settle' ? Image.asset('assets/Images/cash.png') :
+              Image.asset('assets/Images/others.png')
           ),
           title: RichText(
             text: TextSpan(
@@ -102,15 +109,18 @@ class ActivityTile extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) => ExpenseDetail(expModel: expmodel)));
+            builder: (context) => ExpenseDetail(expmodel: expmodel)));
       },
       child: ListTile(
         leading: SizedBox(
-          height: 50,
-          width: 50,
-          child: Container(
-            color: Colors.red,
-          ),
+            height: 50,
+            width: 50,
+            child: expmodel.type == 'Food' ? Image.asset('assets/Images/food.png') :
+            expmodel.type == 'Shopping' ? Image.asset('assets/Images/shopping.png') :
+            expmodel.type == 'Travel' ? Image.asset('assets/Images/car.png') :
+            expmodel.type == 'Movies' ? Image.asset('assets/Images/cinema.png') :
+            expmodel.type == 'settle' ? Image.asset('assets/Images/cash.png') :
+            Image.asset('assets/Images/others.png')
         ),
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

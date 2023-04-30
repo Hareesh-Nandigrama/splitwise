@@ -335,6 +335,7 @@ class FireStrMtd {
 
   Future<List<ExpenseModel>> getActivity()
   async {
+
     CollectionReference clrf = getColl('expenses');
     List<ExpenseModel> e = [];
     for (String x in UserStore.activity) {
@@ -342,7 +343,6 @@ class FireStrMtd {
       var resp2 = data2.data()! as Map<String, dynamic>;
       e.add(ExpenseModel.fromJson(resp2));
     }
-
     return e;
 
   }

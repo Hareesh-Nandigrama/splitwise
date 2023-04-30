@@ -132,7 +132,7 @@ class _GroupDetailsState extends State<GroupDetails> {
                                     ),
                                   ],
                                 ),
-                                for (var expmodel in snapshot.data!.expenses)
+                                for (var expmodel in snapshot.data!.expenses.reversed)
                                   ExpenseTile(
                                     expmodel: expmodel,
                                   )

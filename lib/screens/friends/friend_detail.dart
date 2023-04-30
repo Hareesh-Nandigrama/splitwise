@@ -63,7 +63,7 @@ class _FriendDetailState extends State<FriendDetail> {
                       }
                     return Column(
                       children: [
-                        for (var expmodel in snapshot.data!)
+                        for (var expmodel in snapshot.data!.reversed)
                           ExpenseTile(
                             expmodel: expmodel,
                           )

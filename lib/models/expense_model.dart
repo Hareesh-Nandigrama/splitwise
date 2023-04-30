@@ -1,6 +1,4 @@
-
 import 'dart:convert';
-
 
 class ExpenseModel {
   ExpenseModel({
@@ -11,12 +9,12 @@ class ExpenseModel {
     required this.date,    //date created
     required this.owe,
     required this.groupID,
-    this.type,
+    required this.type,
   });
 
   String title;
   String paidBy;
-  String? type;
+  String type;
   double amount;
   String expenseID;
   DateTime date;
@@ -27,7 +25,7 @@ class ExpenseModel {
     title: json["title"],
     paidBy: json["paidBy"],
    amount: json["amount"],
-   type: json["type"] ?? null,
+   type: json["type"],
    expenseID: json["expenseID"],
     groupID: json["groupID"],
     date: DateTime.fromMillisecondsSinceEpoch(json['date'].seconds * 1000),

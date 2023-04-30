@@ -30,6 +30,7 @@ class _AddExpensePageState extends State<AddExpensePage> {
   List<String> people = [UserStore.email];
   double tot = 0;
   bool isPercentage = false;
+  bool isLoading = false;
   String? cat;
   void split()
   {
@@ -145,25 +146,44 @@ class _AddExpensePageState extends State<AddExpensePage> {
           title: const Text("Add Expense"),
           actions: [
             IconButton(onPressed: () async {
+              if(isLoading)
+                {
+                  return;
+                }
+              setState(() {
+                isLoading = true;
+              });
               if(name.text == '' || name.text == null)
                 {
                   popUp("Select a category", context, 1, 500, Colors.red);
+                  setState(() {
+                    isLoading = false;
+                  });
                   return;
                 }
               if(amount.text == '' || amount.text == null)
               {
                 popUp("Select a category", context, 1, 500, Colors.red);
+                setState(() {
+                  isLoading = false;
+                });
                 return;
               }
               if(cat == null)
                 {
                   popUp("Select a category", context, 1, 500, Colors.red);
+                  setState(() {
+                    isLoading = false;
+                  });
                   return;
                 }
               double x = checkSum();
               if(x > 0.01 || x < -0.01)
                 {
                   popUp("$x amount has not been accounted correctly", context, 1, 500, Colors.red);
+                  setState(() {
+                    isLoading = false;
+                  });
                   return;
                 }
               String expenseID = "Expenses${UserStore.uid}CC${DateTime.now().month}CC${DateTime.now().day}CC${DateTime.now().hour}CC${DateTime.now().minute}CC${DateTime.now().second}";
@@ -175,6 +195,7 @@ class _AddExpensePageState extends State<AddExpensePage> {
               data['date'] = DateTime.now();
               data['expenseID'] = expenseID;
               data['groupID'] = widget.grpModel.id;
+              data['type'] = cat;
               for(var person in tmp.keys)
                 {
                   if(isPercentage)
@@ -196,6 +217,9 @@ class _AddExpensePageState extends State<AddExpensePage> {
                 {
                   response = await FireStrMtd().createGroupExpense(data);
                 }
+              setState(() {
+                isLoading = false;
+              });
 
               if (!mounted) return;
               if(response == "Success")
@@ -218,6 +242,7 @@ class _AddExpensePageState extends State<AddExpensePage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
+                  isLoading ? LinearProgressIndicator() : Container(),
                   InField('Expense Title', false, name, 0, 0),
                   InField('Amount', false, amount, 10, 0),
                   InField("Add People Involved", false, email,0,0),

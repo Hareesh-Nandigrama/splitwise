@@ -16,7 +16,7 @@ class ExpenseTile extends StatelessWidget {
       {
         return GestureDetector(
           onTap: (){
-            Navigator.of(context).push(MaterialPageRoute(builder: (context) => ExpenseDetail(expModel: expmodel)));
+            Navigator.of(context).push(MaterialPageRoute(builder: (context) => ExpenseDetail(expmodel: expmodel)));
           },
           child: Row(
             children: [
@@ -44,7 +44,7 @@ class ExpenseTile extends StatelessWidget {
                         child: Padding(
                           padding: const EdgeInsets.all(5.0),
                           child: Container(
-                            child: Icon(Icons.attach_money, color: Colors.green,)
+                            child: Image.asset('assets/Images/cash.png')
                           ),
                         ),
                       ),
@@ -110,7 +110,7 @@ class ExpenseTile extends StatelessWidget {
       }
     return GestureDetector(
       onTap: (){
-        Navigator.of(context).push(MaterialPageRoute(builder: (context) => ExpenseDetail(expModel: expmodel)));
+        Navigator.of(context).push(MaterialPageRoute(builder: (context) => ExpenseDetail(expmodel: expmodel)));
       },
       child: Row(
         children: [
@@ -134,11 +134,19 @@ class ExpenseTile extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Container(
-                    color: Colors.grey,
+                    color: Colors.white,
                     child: Padding(
                       padding: const EdgeInsets.all(5.0),
                       child: Container(
-                        child: Image.network("https://cdn-icons-png.flaticon.com/512/570/570170.png"),
+                        child:
+                        expmodel.type == 'Food' ? Image.asset('assets/Images/food.png') :
+                        expmodel.type == 'Shopping' ? Image.asset('assets/Images/shopping.png') :
+                        expmodel.type == 'Travel' ? Image.asset('assets/Images/car.png') :
+                        expmodel.type == 'Movies' ? Image.asset('assets/Images/cinema.png') :
+                        expmodel.type == 'settle' ? Image.asset('assets/Images/cash.png') :
+                        Image.asset('assets/Images/others.png')
+
+
                       ),
                     ),
                   ),

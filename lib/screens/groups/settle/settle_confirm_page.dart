@@ -21,6 +21,7 @@ class SettleConfirmPage extends StatefulWidget {
 
 class _SettleConfirmPageState extends State<SettleConfirmPage> {
   TextEditingController ctrl = TextEditingController();
+  bool isLoading = false;
   @override
   Widget build(BuildContext context) {
     var commonStore = context.read<CommonStore>();
@@ -30,6 +31,13 @@ class _SettleConfirmPageState extends State<SettleConfirmPage> {
         title: Text('Record Payment'),
         actions: [
           IconButton(onPressed: () async {
+            if(isLoading)
+              {
+                return;
+              }
+            setState(() {
+              isLoading = true;
+            });
             Map<String, dynamic> data = {};
             data['paidBy'] = widget.from;
             data['title'] = '${UIDN(widget.from)} Paid ${UIDN(widget.to)} \u{20B9}${double.parse(ctrl.text).toStringAsFixed(2)}';
@@ -39,6 +47,7 @@ class _SettleConfirmPageState extends State<SettleConfirmPage> {
               widget.to : double.parse(ctrl.text),
               widget.from: a,
             };
+            data['type'] = 'settle';
             data['date'] = DateTime.now();
             data['expenseID'] = "GSExpenses${UserStore.uid}CC${DateTime.now().month}CC${DateTime.now().day}CC${DateTime.now().hour}CC${DateTime.now().minute}CC${DateTime.now().second}";
             data['groupID'] = widget.groupId;
@@ -62,6 +71,9 @@ class _SettleConfirmPageState extends State<SettleConfirmPage> {
             else
             {
               popUp(response, context, 1, 500, Colors.red);
+              setState(() {
+                isLoading = false;
+              });
             }
           }, icon: Icon(Icons.save))
         ],

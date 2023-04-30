@@ -28,7 +28,10 @@ class _ActivityPageState extends State<ActivityPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('Activity', style: TextStyle(fontSize: 25),),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text('Activity', style: TextStyle(fontSize: 25),),
+                ),
                 FutureBuilder(
                   future: FireStrMtd().getActivity(),
                     builder: (context,snapshot){
@@ -38,7 +41,7 @@ class _ActivityPageState extends State<ActivityPage> {
                       }
                   return Column(
                     children: [
-                      for(ExpenseModel e in snapshot.data!)
+                      for(ExpenseModel e in snapshot.data!.reversed)
                         ActivityTile(expmodel: e)
                     ],
                   );
