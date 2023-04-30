@@ -21,10 +21,7 @@ class _SettleUpPageState extends State<SettleUpPage> {
   @override
   Widget build(BuildContext context) {
     var commonStore = context.read<CommonStore>();
-    return Observer(
-      builder: (context) {
-        print(commonStore.counter);
-        return SafeArea(
+    return SafeArea(
             child: Scaffold(
               appBar: AppBar(
                 title: const Text('Select a balance to settle'),
@@ -67,7 +64,5 @@ class _SettleUpPageState extends State<SettleUpPage> {
                 ),
               ),
         ));
-      }
-    );
   }
 }

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:splitwise/firebase/firestore.dart';
-import 'package:splitwise/functions/filters.dart';
+import 'package:splitwise/functions/activity_filter_function.dart';
 import 'package:splitwise/stores/common_store.dart';
 import 'package:splitwise/widgets/fields/drop_down.dart';
 import 'package:splitwise/widgets/fields/filter.dart';

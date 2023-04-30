@@ -42,6 +42,7 @@ List<ExpenseModel> filterFunction({required List<ExpenseModel> input, required S
       }
     return false;
   });
+  print(output);
 
 
   return output;

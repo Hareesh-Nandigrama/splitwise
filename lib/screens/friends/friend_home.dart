@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:provider/provider.dart';
+import 'package:splitwise/functions/friends_filter_function.dart';
 import 'package:splitwise/models/user_friends_model.dart';
+import 'package:splitwise/widgets/fields/filter.dart';
 import 'package:splitwise/widgets/friend_tile.dart';
-import '../../firebase/auth.dart';
 import '../../firebase/firestore.dart';
-import '../../models/user_groups_model.dart';
 import '../../stores/common_store.dart';
 import '../../stores/user_store.dart';
 
@@ -29,7 +29,7 @@ class _FriendHomeState extends State<FriendHome> {
               builder: (context) {
                 double bal = 0;
                 List<String> keys = [];
-                Map<String, UserFriendModel> tmp= UserStore.friends;
+                Map<String, UserFriendModel> tmp= filterFriendsFunction(input: UserStore.friends, type: commonStore.type);
                 for(String key in tmp.keys)
                 {
                   keys.add(key);
@@ -44,6 +44,7 @@ class _FriendHomeState extends State<FriendHome> {
                             bal > 0 ? Text('Overall, you are owed \u{20B9}${bal.toStringAsFixed(2)}', style: TextStyle(color: Colors.green,fontSize: 20),):
                                 Text('Overall, you owe \u{20B9}${bal.abs().toStringAsFixed(2)}', style: TextStyle(color: Colors.orange,fontSize: 20),),
                         const SizedBox(height: 15,),
+                        FilterBar(items: ['All','You Owe','Who Owe You','You are settled with'], hintText: 'People',index: 0,),
                         for(String key in tmp.keys)
                           FriendTile(key)
                       ],
