@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:provider/provider.dart';
+import 'package:splitwise/models/user_friends_model.dart';
 import 'package:splitwise/widgets/friend_tile.dart';
 import '../../firebase/auth.dart';
 import '../../firebase/firestore.dart';
@@ -19,21 +20,21 @@ class _FriendHomeState extends State<FriendHome> {
   @override
   Widget build(BuildContext context) {
     var commonStore = context.read<CommonStore>();
-    return Observer(
-      builder: (context) {
-        return FutureBuilder(
-            future: FireStrMtd().saveUserData(),
-            builder: (context,snapshot) {
-              if(snapshot.hasData)
-              {
+    return FutureBuilder(
+        future: FireStrMtd().saveUserData(),
+        builder: (context,snapshot) {
+          if(snapshot.hasData)
+          {
+            return Observer(
+              builder: (context) {
                 double bal = 0;
                 List<String> keys = [];
-                for(String key in UserStore.friends.keys)
-                  {
-                    keys.add(key);
-                    bal += UserStore.friends[key]!.owe;
-                  }
-                print(commonStore.counter);
+                Map<String, UserFriendModel> tmp= UserStore.friends;
+                for(String key in tmp.keys)
+                {
+                  keys.add(key);
+                  bal += tmp[key]!.owe;
+                }
                 return Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: SingleChildScrollView(
@@ -43,21 +44,21 @@ class _FriendHomeState extends State<FriendHome> {
                             bal > 0 ? Text('Overall, you are owed \u{20B9}${bal.toStringAsFixed(2)}', style: TextStyle(color: Colors.green,fontSize: 20),):
                                 Text('Overall, you owe \u{20B9}${bal.abs().toStringAsFixed(2)}', style: TextStyle(color: Colors.orange,fontSize: 20),),
                         const SizedBox(height: 15,),
-                        for(String key in UserStore.friends.keys)
+                        for(String key in tmp.keys)
                           FriendTile(key)
                       ],
                     ),
                   ),
                 );
               }
-              else
-              {
-                return CircularProgressIndicator();
-              }
+            );
+          }
+          else
+          {
+            return CircularProgressIndicator();
+          }
 
-            }
-        );
-      }
+        }
     );
   }
 }

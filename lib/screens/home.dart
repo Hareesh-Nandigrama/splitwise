@@ -39,7 +39,8 @@ class _HomeScreenState extends State<HomeScreen> {
               leadingWidth: 0,
               centerTitle: true,
               title: Text(
-                commonStore.page == Pages.account ? "Account" : ""
+                commonStore.page == Pages.account ? "Account" : commonStore.page == Pages.activity ? "Activity":
+                ""
               ),
               actions: [
                 commonStore.page == Pages.groups ? IconButton(onPressed: (){

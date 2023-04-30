@@ -155,7 +155,7 @@ class _AddExpensePageState extends State<AddExpensePage> {
               });
               if(name.text == '' || name.text == null)
                 {
-                  popUp("Select a category", context, 1, 500, Colors.red);
+                  popUp("Enter Title", context, 1, 500, Colors.red);
                   setState(() {
                     isLoading = false;
                   });
@@ -163,7 +163,7 @@ class _AddExpensePageState extends State<AddExpensePage> {
                 }
               if(amount.text == '' || amount.text == null)
               {
-                popUp("Select a category", context, 1, 500, Colors.red);
+                popUp("Enter Amount", context, 1, 500, Colors.red);
                 setState(() {
                   isLoading = false;
                 });
@@ -278,7 +278,6 @@ class _AddExpensePageState extends State<AddExpensePage> {
                     child:
                     const Text('Split Equally'),
                   ),
-                  
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [

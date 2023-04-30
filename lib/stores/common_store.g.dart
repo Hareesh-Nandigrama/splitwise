@@ -40,6 +40,36 @@ mixin _$CommonStore on _CommonStore, Store {
     });
   }
 
+  late final _$typeAtom = Atom(name: '_CommonStore.type', context: context);
+
+  @override
+  String get type {
+    _$typeAtom.reportRead();
+    return super.type;
+  }
+
+  @override
+  set type(String value) {
+    _$typeAtom.reportWrite(value, super.type, () {
+      super.type = value;
+    });
+  }
+
+  late final _$type2Atom = Atom(name: '_CommonStore.type2', context: context);
+
+  @override
+  String get type2 {
+    _$type2Atom.reportRead();
+    return super.type2;
+  }
+
+  @override
+  set type2(String value) {
+    _$type2Atom.reportWrite(value, super.type2, () {
+      super.type2 = value;
+    });
+  }
+
   late final _$_CommonStoreActionController =
       ActionController(name: '_CommonStore', context: context);
 
@@ -69,7 +99,9 @@ mixin _$CommonStore on _CommonStore, Store {
   String toString() {
     return '''
 page: ${page},
-counter: ${counter}
+counter: ${counter},
+type: ${type},
+type2: ${type2}
     ''';
   }
 }

@@ -15,6 +15,12 @@ abstract class _CommonStore with Store {
   @observable
   int counter = 0;
 
+  @observable
+  String type = "All";
+
+  @observable
+  String type2 = "All";
+
   @action
   void setPage(Pages p) {
     page = p;

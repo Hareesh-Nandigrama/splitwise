@@ -24,7 +24,11 @@ class BottomNavBar extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   GestureDetector(
-                      onTap: (){commonStore.setPage(Pages.groups);},
+                      onTap: (){
+                        commonStore.setPage(Pages.groups);
+                        commonStore.type == 'All';
+                        commonStore.type2 = 'All';
+                        },
                       child: Column(
                         children: [
                           Icon(Icons.groups, size: 30,color: commonStore.page == Pages.groups? kgreen : kgrey),
