@@ -67,7 +67,7 @@ class _FriendDetailState extends State<FriendDetail> {
                           padding: const EdgeInsets.all(8.0),
                           child: ElevatedButton(
                             onPressed: () {
-                              Navigator.of(context).push(MaterialPageRoute(builder: (context) => SettleConfirmPage2(from: UserStore.uid, to: widget.keyo, groupId: 'l', amount: bal, )));
+                              //Navigator.of(context).push(MaterialPageRoute(builder: (context) => SettleConfirmPage2(from: UserStore.uid, to: widget.keyo, groupId: 'l', amount: bal, )));
                             },
                             style: ElevatedButton.styleFrom(
                                 padding: const EdgeInsets.all(10),
