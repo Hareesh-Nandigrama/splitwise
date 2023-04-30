@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:splitwise/screens/home.dart';
+import 'package:splitwise/widgets/fields/drop_down.dart';
 import '../../constants/colors.dart';
 import '../../firebase/firestore.dart';
 import '../../functions/email_to_uid.dart';
@@ -28,14 +29,22 @@ class _AddExpensePageState extends State<AddExpensePage> {
   };
   List<String> people = [UserStore.email];
   double tot = 0;
+  bool isPercentage = false;
+  String? cat;
   void split()
   {
     if(amount.text == '' || amount.text.isEmpty)
     {
+      popUp("Amount cannot be empty",context,1,500,Colors.red);
       return;
     }
     int size = tmp.keys.length;
     double amt = double.parse(amount.text);
+    if(isPercentage)
+      {
+        amt = 100;
+      }
+
     double share = amt/size;
     for(var key in tmp.keys)
     {
@@ -47,6 +56,10 @@ class _AddExpensePageState extends State<AddExpensePage> {
   {
     double a = double.parse(amount.text);
     double counter = 0;
+    if(isPercentage)
+      {
+        a = 100;
+      }
     for(var key in tmp.keys)
       {
         if(tmp[key]!.text == "")
@@ -132,6 +145,21 @@ class _AddExpensePageState extends State<AddExpensePage> {
           title: const Text("Add Expense"),
           actions: [
             IconButton(onPressed: () async {
+              if(name.text == '' || name.text == null)
+                {
+                  popUp("Select a category", context, 1, 500, Colors.red);
+                  return;
+                }
+              if(amount.text == '' || amount.text == null)
+              {
+                popUp("Select a category", context, 1, 500, Colors.red);
+                return;
+              }
+              if(cat == null)
+                {
+                  popUp("Select a category", context, 1, 500, Colors.red);
+                  return;
+                }
               double x = checkSum();
               if(x > 0.01 || x < -0.01)
                 {
@@ -149,9 +177,17 @@ class _AddExpensePageState extends State<AddExpensePage> {
               data['groupID'] = widget.grpModel.id;
               for(var person in tmp.keys)
                 {
-                  data['owe'][EUID(person)] = double.parse(tmp[person]!.text);
+                  if(isPercentage)
+                    {
+                      data['owe'][EUID(person)] = double.parse(tmp[person]!.text) * data['amount'] / 100;
+                    }
+                  else
+                    {
+                      data['owe'][EUID(person)] = double.parse(tmp[person]!.text);
+                    }
                 }
               String response = '';
+              print(data);
               if(widget.grpModel.balances.keys.length == 1)
                 {
                    response = await FireStrMtd().createNonGroupExpense(data);
@@ -196,6 +232,16 @@ class _AddExpensePageState extends State<AddExpensePage> {
                     child:
                     const Text('Add Friend'),
                   ),
+                  SizedBox(
+                    width: 320,
+                    child: CustomDropDown(items: ['Food','Shopping','Travel','Movies','Others'], hintText: 'Category', onChanged: (String val){
+                      setState(() {
+                        cat = val;
+                      });
+
+                    },
+                    value: cat,),
+                  ),
                   ElevatedButton(
                     onPressed: () async {
                       split();
@@ -206,6 +252,24 @@ class _AddExpensePageState extends State<AddExpensePage> {
                         backgroundColor: kgreen),
                     child:
                     const Text('Split Equally'),
+                  ),
+                  
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Expanded(
+                        child: Container(),
+                      ),
+                      const Text("Is Percentage ?"),
+                      Checkbox(value: isPercentage, onChanged: (a){
+                        isPercentage = !isPercentage;
+                        setState(() {
+                        });
+                      }),
+                      Expanded(
+                        child: Container(),
+                      ),
+                    ],
                   ),
                   Column(
                     children: [

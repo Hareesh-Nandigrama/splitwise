@@ -186,6 +186,7 @@ class FireStrMtd {
       });
 
       await getColl('expenses').doc('Group$groupID').set(ExpenseModel(
+        type: '',
           title: title,
           paidBy: UserStore.uid,
           amount: 0,
