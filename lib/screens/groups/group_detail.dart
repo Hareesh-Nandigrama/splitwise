@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:splitwise/firebase/firestore.dart';
-import 'package:splitwise/screens/groups/settle_up_page.dart';
+import 'package:splitwise/screens/groups/settle/settle_up_page.dart';
 import 'package:splitwise/widgets/expenses_tile.dart';
 
 import '../../models/user_groups_model.dart';

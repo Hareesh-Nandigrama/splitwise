@@ -3,7 +3,8 @@ import 'package:splitwise/models/group_model.dart';
 import 'package:splitwise/stores/user_store.dart';
 import 'package:splitwise/widgets/friend_tile.dart';
 
-import '../../functions/email_to_uid.dart';
+import '../../../functions/email_to_uid.dart';
+import 'settle_confirm_page.dart';
 
 class SettleUpPage extends StatefulWidget {
   final GroupModel model;
@@ -28,7 +29,19 @@ class _SettleUpPageState extends State<SettleUpPage> {
                   GestureDetector(
                     onTap: ()
                     {
+                      double bal = widget.model.balances[UserStore.uid]![person]!;
+                      if(bal == 0)
+                        {
+                          return;
+                        }
+                      else if(bal < 0)
+                        {
+                          Navigator.of(context).push(MaterialPageRoute(builder: (context)=>SettleConfirmPage(from: UserStore.uid,to: person, groupId: widget.model.id, amount: bal,)));
+                        }
+                      else
+                        {
 
+                        }
                     },
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),

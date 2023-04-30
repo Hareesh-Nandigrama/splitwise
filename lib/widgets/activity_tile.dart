@@ -58,6 +58,47 @@ class ActivityTile extends StatelessWidget {
         ),
       );
     }
+    else if(expmodel.expenseID.substring(0,10) == 'GSExpenses')
+      {
+        return ListTile(
+          leading: SizedBox(
+            height: 50,
+            width: 50,
+            child: Container(
+              child: Icon(Icons.attach_money, color: Colors.green,),
+            ),
+          ),
+          title: RichText(
+            text: TextSpan(
+              style: TextStyle(color: Colors.black, fontSize: 20),
+              children: <TextSpan>[
+                TextSpan(text:  expmodel.title),
+
+              ],
+            ),
+          ),
+          subtitle: Padding(
+            padding: const EdgeInsets.only(top: 6),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                RichText(
+                  text: TextSpan(
+                    style: DefaultTextStyle.of(context).style,
+                    children: <TextSpan>[
+                      TextSpan(
+                          text:
+                          DateFormat('dd MMM, hh:mm aaa').format(expmodel.date),
+                          style: TextStyle(color: Colors.black87,fontSize: 10)),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      }
     return GestureDetector(
       onTap: () {
         Navigator.of(context).push(MaterialPageRoute(

@@ -12,6 +12,62 @@ class ExpenseTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if(expmodel.expenseID.substring(0,10) == "GSExpenses")
+      {
+        return GestureDetector(
+          onTap: (){
+            Navigator.of(context).push(MaterialPageRoute(builder: (context) => ExpenseDetail(expModel: expmodel)));
+          },
+          child: Row(
+            children: [
+              Expanded(
+                flex: 1,
+                child: Padding(
+                  padding: const EdgeInsets.all(5.0),
+                  child: Column(
+                    children: [
+                      Text(DateFormat('MMM').format(expmodel.date)),
+                      Text(expmodel.date.day.toString()),
+                    ],
+                  ),
+                ),
+              ),
+              Expanded(
+                flex: 1,
+                child: Padding(
+                  padding: const EdgeInsets.all(5.0),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Container(
+                        color: Colors.white,
+                        child: Padding(
+                          padding: const EdgeInsets.all(5.0),
+                          child: Container(
+                            child: Icon(Icons.attach_money, color: Colors.green,)
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              Expanded(
+                flex: 7,
+                child: Padding(
+                  padding: const EdgeInsets.all(5.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(expmodel.title, style: const TextStyle(color: Colors.black, fontSize: 15),),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
+      }
     double tbalance = 0;
     Widget a;
     if (expmodel.paidBy == UserStore.uid)
