@@ -74,7 +74,6 @@ class MyApp extends StatelessWidget {
           GroupHome.id: (context) => const GroupHome(),
           AddFriendPage.id: (context) => const AddFriendPage(),
           NewGroupPage.id: (context) => const NewGroupPage(),
-          //
         },
       ),
     );

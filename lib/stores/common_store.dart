@@ -12,9 +12,17 @@ abstract class _CommonStore with Store {
   @observable
   Pages page = Pages.groups;
 
+  @observable
+  int counter = 0;
+
   @action
   void setPage(Pages p) {
     page = p;
+  }
+
+  @action
+  void reload(){
+    counter++;
   }
 
 

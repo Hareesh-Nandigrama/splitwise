@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:splitwise/stores/common_store.dart';
 import 'package:splitwise/stores/user_store.dart';
 
 
@@ -22,6 +24,7 @@ class _NewGroupPageState extends State<NewGroupPage> {
   List<String> people = [];
   @override
   Widget build(BuildContext context) {
+    var commonStore = context.read<CommonStore>();
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
@@ -87,6 +90,7 @@ class _NewGroupPageState extends State<NewGroupPage> {
                           if(resp == "Success")
                             {
                               popUp('Group Created', context, 2, 0, Colors.green);
+                              commonStore.reload();
                               Navigator.of(context).pop();
                             }
                           else

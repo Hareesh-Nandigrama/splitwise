@@ -24,6 +24,22 @@ mixin _$CommonStore on _CommonStore, Store {
     });
   }
 
+  late final _$counterAtom =
+      Atom(name: '_CommonStore.counter', context: context);
+
+  @override
+  int get counter {
+    _$counterAtom.reportRead();
+    return super.counter;
+  }
+
+  @override
+  set counter(int value) {
+    _$counterAtom.reportWrite(value, super.counter, () {
+      super.counter = value;
+    });
+  }
+
   late final _$_CommonStoreActionController =
       ActionController(name: '_CommonStore', context: context);
 
@@ -39,9 +55,21 @@ mixin _$CommonStore on _CommonStore, Store {
   }
 
   @override
+  void reload() {
+    final _$actionInfo =
+        _$_CommonStoreActionController.startAction(name: '_CommonStore.reload');
+    try {
+      return super.reload();
+    } finally {
+      _$_CommonStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
-page: ${page}
+page: ${page},
+counter: ${counter}
     ''';
   }
 }

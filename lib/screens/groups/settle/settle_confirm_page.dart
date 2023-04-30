@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:splitwise/screens/home.dart';
 
 import '../../../firebase/firestore.dart';
 import '../../../functions/email_to_uid.dart';
 import '../../../functions/pop_up.dart';
+import '../../../stores/common_store.dart';
 import '../../../stores/user_store.dart';
 
 class SettleConfirmPage extends StatefulWidget {
@@ -20,6 +23,7 @@ class _SettleConfirmPageState extends State<SettleConfirmPage> {
   TextEditingController ctrl = TextEditingController();
   @override
   Widget build(BuildContext context) {
+    var commonStore = context.read<CommonStore>();
     ctrl.text = widget.amount.abs().toString();
     return Scaffold(
       appBar: AppBar(
@@ -28,7 +32,7 @@ class _SettleConfirmPageState extends State<SettleConfirmPage> {
           IconButton(onPressed: () async {
             Map<String, dynamic> data = {};
             data['paidBy'] = widget.from;
-            data['title'] = '${UIDN(widget.from)} Paid ${UIDN(widget.to)} \u{20B9}${ctrl.text}';
+            data['title'] = '${UIDN(widget.from)} Paid ${UIDN(widget.to)} \u{20B9}${double.parse(ctrl.text).toStringAsFixed(2)}';
             data['amount'] = double.parse(ctrl.text);
             double a = 0;
             data['owe'] = {
@@ -51,14 +55,14 @@ class _SettleConfirmPageState extends State<SettleConfirmPage> {
             if (!mounted) return;
             if(response == "Success")
             {
-              Navigator.of(context).pop();
+              commonStore.reload();
+              Navigator.of(context).pushReplacementNamed(HomeScreen.id);
               popUp("Payment Recorded", context, 1, 500, Colors.green);
             }
             else
             {
               popUp(response, context, 1, 500, Colors.red);
             }
-
           }, icon: Icon(Icons.save))
         ],
       ),

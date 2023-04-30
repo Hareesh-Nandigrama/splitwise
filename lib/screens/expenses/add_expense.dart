@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:splitwise/screens/home.dart';
 import '../../constants/colors.dart';
 import '../../firebase/firestore.dart';
 import '../../functions/email_to_uid.dart';
 import '../../functions/pop_up.dart';
 import '../../models/group_model.dart';
+import '../../stores/common_store.dart';
 import '../../stores/user_store.dart';
 import '../../widgets/fields/fields.dart';
 
@@ -46,7 +49,15 @@ class _AddExpensePageState extends State<AddExpensePage> {
     double counter = 0;
     for(var key in tmp.keys)
       {
-        counter += double.parse(tmp[key]!.text);
+        if(tmp[key]!.text == "")
+          {
+            popUp("Fields cannot be empty", context, 1, 500, Colors.red);
+            break;
+          }
+        else
+          {
+            counter += double.parse(tmp[key]!.text);
+          }
       }
 
     a = a - counter;
@@ -106,6 +117,8 @@ class _AddExpensePageState extends State<AddExpensePage> {
 
   @override
   Widget build(BuildContext context) {
+    var commonStore = context.read<CommonStore>();
+
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
@@ -151,7 +164,8 @@ class _AddExpensePageState extends State<AddExpensePage> {
               if (!mounted) return;
               if(response == "Success")
                 {
-                  Navigator.of(context).pop();
+                  commonStore.reload();
+                  Navigator.of(context).pushReplacementNamed(HomeScreen.id);
                   popUp("Expense Added", context, 1, 500, Colors.green);
                 }
               else

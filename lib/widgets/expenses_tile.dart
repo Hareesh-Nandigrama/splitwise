@@ -83,14 +83,30 @@ class ExpenseTile extends StatelessWidget {
     }
     else
       {
-        tbalance = expmodel.owe[UserStore.uid]!;
-        a = Column(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: [
-            const Text('You Took', style: TextStyle(color: Colors.orange, fontSize: 10),),
-            Text('\u{20B9}${tbalance.toStringAsFixed(2)}', style: const TextStyle(color: Colors.orange, fontSize: 15),),
-          ],
-        );
+        print("HHEEE");
+        print(expmodel.owe);
+        print(UserStore.uid);
+        if(expmodel.owe[UserStore.uid] == null)
+          {
+            a = Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                const Text('Not involved', style: TextStyle(color: Colors.black87, fontSize: 10),),
+              ],
+            );
+          }
+        else
+          {
+            tbalance = expmodel.owe[UserStore.uid]!;
+            a = Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                const Text('You Took', style: TextStyle(color: Colors.orange, fontSize: 10),),
+                Text('\u{20B9}${tbalance.toStringAsFixed(2)}', style: const TextStyle(color: Colors.orange, fontSize: 15),),
+              ],
+            );
+          }
+
       }
     return GestureDetector(
       onTap: (){

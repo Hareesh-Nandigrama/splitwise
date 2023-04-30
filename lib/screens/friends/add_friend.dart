@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:splitwise/screens/home.dart';
 
 
 import '../../constants/colors.dart';
 import '../../firebase/firestore.dart';
 import '../../functions/pop_up.dart';
+import '../../stores/common_store.dart';
 import '../../widgets/fields/fields.dart';
 
 class AddFriendPage extends StatefulWidget {
@@ -20,6 +23,7 @@ class _AddFriendPageState extends State<AddFriendPage> {
 
   @override
   Widget build(BuildContext context) {
+    var commonStore = context.read<CommonStore>();
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
@@ -27,7 +31,8 @@ class _AddFriendPageState extends State<AddFriendPage> {
           leading: IconButton(
             icon: Icon(Icons.chevron_left_sharp),
             onPressed: () {
-              Navigator.of(context).pop();
+              commonStore.reload();
+              Navigator.of(context).pushReplacementNamed(HomeScreen.id);
             },
           ),
           centerTitle: true,
@@ -65,6 +70,7 @@ class _AddFriendPageState extends State<AddFriendPage> {
                             : Colors.red);
                     setState(() {
                       emailC.text = "";
+                      commonStore.reload();
                     });
                   },
                   style: ElevatedButton.styleFrom(
