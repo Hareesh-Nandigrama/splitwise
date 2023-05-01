@@ -23,7 +23,6 @@ class _AddExpensePageState extends State<AddExpensePage> {
 
   TextEditingController name = TextEditingController();
   TextEditingController amount = TextEditingController();
-  TextEditingController email = TextEditingController();
   Map<String,TextEditingController> tmp = {
     UserStore.email : TextEditingController(text: '0'),
   };
@@ -254,10 +253,9 @@ class _AddExpensePageState extends State<AddExpensePage> {
                   isLoading ? LinearProgressIndicator() : Container(),
                   InField('Expense Title', false, name, 0, 0),
                   InField('Amount', false, amount, 10, 0),
-                  InField("Add People Involved", false, email,0,0),
                   SizedBox(
                     width: 320,
-                    child: CustomDropDown(items: UserStore.getFriends(), hintText: 'Category', onChanged: (String val){
+                    child: CustomDropDown(items: UserStore.getFriends(), hintText: 'Add People Involved', onChanged: (String val){
                       setState(() {
                        friend = val;
                       });

@@ -49,7 +49,7 @@ class _NewGroupPageState extends State<NewGroupPage> {
                   InField('Group Name', false, group, 0, 0),
                   SizedBox(
                     width: 320,
-                    child: CustomDropDown(items: UserStore.getFriends(), hintText: 'Category', onChanged: (String val){
+                    child: CustomDropDown(items: UserStore.getFriends(), hintText: 'Add Friend', onChanged: (String val){
                       setState(() {
                         friend = val;
                       });
