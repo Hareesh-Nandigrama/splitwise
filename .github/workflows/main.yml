@@ -20,7 +20,7 @@ jobs:
       - run: flutter --version
       - run: flutter pub get
       - run: flutter pub upgrade
-      - run: flutter build apk --no-tree-shake-icons --debug
+      - run: flutter build apk --no-tree-shake-icons --release
       - name: Create Release
         uses: ncipollo/release-action@v1.10.0
         with:
