@@ -32,6 +32,7 @@ class _AddExpensePageState extends State<AddExpensePage> {
   bool isPercentage = false;
   bool isLoading = false;
   String? cat;
+  String? friend;
   void split()
   {
     if(amount.text == '' || amount.text.isEmpty)
@@ -80,12 +81,18 @@ class _AddExpensePageState extends State<AddExpensePage> {
 
   void addPerson()
   {
-    if(email.text == '')
+    if(friend == null)
+      {
+        popUp("Cannot be empty", context, 1, 500, Colors.red);
+        return;
+      }
+    String a = UIDE(NUID(friend!));
+    if(a == '')
     {
       popUp("Cannot be empty", context, 1, 500, Colors.red);
       return;
     }
-    else if(people.contains(email.text))
+    else if(people.contains(a))
     {
       popUp("Already Added", context, 1, 500, Colors.red);
       return;
@@ -94,10 +101,10 @@ class _AddExpensePageState extends State<AddExpensePage> {
     {
       if(widget.grpModel.creator == 'ADMIN__ADMIN')
       {
-        if(UserStore.friends.containsKey(EUID(email.text)))
+        if(UserStore.friends.containsKey(EUID(a)))
         {
-          people.add(email.text);
-          tmp[email.text] = TextEditingController();
+          people.add(a);
+          tmp[a] = TextEditingController();
           popUp("Added", context, 1, 500, Colors.green);
           setState(() {});
           return;
@@ -111,10 +118,10 @@ class _AddExpensePageState extends State<AddExpensePage> {
       }
       else
       {
-        if(widget.grpModel.balances.containsKey(EUID(email.text)))
+        if(widget.grpModel.balances.containsKey(EUID(a)))
         {
-          people.add(email.text);
-          tmp[email.text] = TextEditingController();
+          people.add(a);
+          tmp[a] = TextEditingController();
           popUp("Added", context, 1, 500, Colors.green);
           setState(() {});
           return;
@@ -246,6 +253,16 @@ class _AddExpensePageState extends State<AddExpensePage> {
                   InField('Expense Title', false, name, 0, 0),
                   InField('Amount', false, amount, 10, 0),
                   InField("Add People Involved", false, email,0,0),
+                  SizedBox(
+                    width: 320,
+                    child: CustomDropDown(items: UserStore.getFriends(), hintText: 'Category', onChanged: (String val){
+                      setState(() {
+                       friend = val;
+                      });
+
+                    },
+                      value: friend,),
+                  ),
                   ElevatedButton(
                     onPressed: (){
                       addPerson();

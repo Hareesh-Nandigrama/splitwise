@@ -1,3 +1,4 @@
+import '../functions/email_to_uid.dart';
 import '../models/user_friends_model.dart';
 import '../models/user_groups_model.dart';
 
@@ -61,6 +62,18 @@ class UserStore
     groups = {};
 
   }
+
+  static List<String> getFriends()
+  {
+    List<String> e = [];
+    for(String key in friends.keys)
+      {
+        e.add(UIDN(key));
+      }
+    return e;
+
+  }
+
 
 
 

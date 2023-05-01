@@ -26,5 +26,17 @@ String UIDN(String uid)
   return MappingStore.mapping[uid]!;
 }
 
+String NUID(String name)
+{
+  for(String uid in MappingStore.mapping.keys)
+  {
+    if(MappingStore.mapping[uid] == name)
+    {
+      return uid;
+    }
+  }
+  return "NOT FOUND";
+}
+
 
 
