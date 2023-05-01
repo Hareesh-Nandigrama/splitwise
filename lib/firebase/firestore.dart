@@ -120,6 +120,8 @@ class FireStrMtd {
     return a;
   }
 
+
+
   addFriend({required String email}) async {
     if (email.isEmpty) {
       return "Email cannot be empty";
@@ -228,6 +230,46 @@ class FireStrMtd {
 
       return "Success";
     } catch (e) {
+      return e.toString();
+    }
+  }
+
+  addToGroup(GroupModel model, String email)
+  async {
+    try {
+      double a = 0;
+      CollectionReference users = getColl('users');
+      await users.doc(EUID(email)).set({
+        'activity': FieldValue.arrayUnion(['Group${model.id}']),
+        "groups": {
+          model.id: {'title': model.title, 'owe': a, 'groupID': model.id}
+        }
+      }, SetOptions(merge: true));
+
+      Map<String, Map<String, double>> tmp2 = {};
+      Map<String,double> tt = {};
+      for(String person in model.balances.keys)
+        {
+          Map<String,double>t = {};
+          for(String person2 in model.balances[person]!.keys)
+          {
+            t[person2] = model.balances[person]![person2]!;
+          }
+          tt[person] = a;
+          t[EUID(email)] = a;
+          tmp2[person] = t;
+        }
+      tmp2[EUID(email)] = tt;
+
+
+      await getColl('groups').doc(model.id).update({
+        'balances': tmp2
+      });
+
+      return 'Success';
+    }
+    catch(e)
+    {
       return e.toString();
     }
   }

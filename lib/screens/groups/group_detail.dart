@@ -89,9 +89,9 @@ class _GroupDetailsState extends State<GroupDetails> {
                         ),
                         title: Text(widget.userGrpModel.title),
                         actions: [
-                          IconButton(onPressed: (){
+                          snapshot.data!.creator != 'ADMIN__ADMIN' ? IconButton(onPressed: (){
                             Navigator.of(context).push(MaterialPageRoute(builder: (context) => GroupSettingsPage(model: snapshot.data!)));
-                          }, icon: Icon(Icons.settings))
+                          }, icon: Icon(Icons.settings)) : Container()
                         ],
                       ),
                       body: SingleChildScrollView(
