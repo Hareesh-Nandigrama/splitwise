@@ -57,30 +57,30 @@ class _FriendDetailState extends State<FriendDetail> {
                       ],
                     ),
                   ),
-                  bal < 0 ? Row(
-                    children: [
-                      SizedBox(
-                        width: 40,
-                      ),
-                      Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: ElevatedButton(
-                            onPressed: () {
-                              //Navigator.of(context).push(MaterialPageRoute(builder: (context) => SettleConfirmPage2(from: UserStore.uid, to: widget.keyo, groupId: 'l', amount: bal, )));
-                            },
-                            style: ElevatedButton.styleFrom(
-                                padding: const EdgeInsets.all(10),
-                                backgroundColor: Colors.orange),
-                            child: const Text('Settle up'),
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        width: 40,
-                      ),
-                    ],
-                  ) : Container(),
+                  // bal < 0 ? Row(
+                  //   children: [
+                  //     SizedBox(
+                  //       width: 40,
+                  //     ),
+                  //     Expanded(
+                  //       child: Padding(
+                  //         padding: const EdgeInsets.all(8.0),
+                  //         child: ElevatedButton(
+                  //           onPressed: () {
+                  //             //Navigator.of(context).push(MaterialPageRoute(builder: (context) => SettleConfirmPage2(from: UserStore.uid, to: widget.keyo, groupId: 'l', amount: bal, )));
+                  //           },
+                  //           style: ElevatedButton.styleFrom(
+                  //               padding: const EdgeInsets.all(10),
+                  //               backgroundColor: Colors.orange),
+                  //           child: const Text('Settle up'),
+                  //         ),
+                  //       ),
+                  //     ),
+                  //     SizedBox(
+                  //       width: 40,
+                  //     ),
+                  //   ],
+                  // ) : Container(),
                   FutureBuilder(
                     future: FireStrMtd().getFriendExpenses(widget.keyo),
                       builder: (context, snapshot) {

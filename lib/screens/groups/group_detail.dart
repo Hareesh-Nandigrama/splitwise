@@ -12,6 +12,7 @@ import '../../stores/common_store.dart';
 import '../../widgets/fields/filter.dart';
 import '../expenses/add_expense.dart';
 import 'balances_page.dart';
+import 'group_settings_page.dart';
 
 class GroupDetails extends StatefulWidget {
   final UserGroupModel userGrpModel;
@@ -43,6 +44,7 @@ class _GroupDetailsState extends State<GroupDetails> {
                       },
                     ),
                     title: Text(widget.userGrpModel.title),
+
                   ),
                   body: Padding(
                     padding: const EdgeInsets.all(8.0),
@@ -65,7 +67,7 @@ class _GroupDetailsState extends State<GroupDetails> {
                           style: const TextStyle(
                               color: Colors.orange, fontSize: 20),
                         ),
-                        CircularProgressIndicator(),
+                        const CircularProgressIndicator(),
                       ],
                     ),
                   ),
@@ -86,6 +88,11 @@ class _GroupDetailsState extends State<GroupDetails> {
                           },
                         ),
                         title: Text(widget.userGrpModel.title),
+                        actions: [
+                          IconButton(onPressed: (){
+                            Navigator.of(context).push(MaterialPageRoute(builder: (context) => GroupSettingsPage(model: snapshot.data!)));
+                          }, icon: Icon(Icons.settings))
+                        ],
                       ),
                       body: SingleChildScrollView(
                         child: Padding(
@@ -140,11 +147,11 @@ class _GroupDetailsState extends State<GroupDetails> {
                                       ],
                                     ),
                                     Row(
-                                        children: [
+                                        children: const [
 
                                           Expanded(
                                             child: Padding(
-                                              padding: const EdgeInsets.all(8.0),
+                                              padding: EdgeInsets.all(8.0),
                                               child: SizedBox(
                                                   height: 100,
                                                   width: 150,
@@ -157,7 +164,7 @@ class _GroupDetailsState extends State<GroupDetails> {
                                           ),
                                           Expanded(
                                             child: Padding(
-                                              padding: const EdgeInsets.all(8.0),
+                                              padding: EdgeInsets.all(8.0),
                                               child: SizedBox(
                                                   height: 100,
                                                   width: 150,

@@ -22,7 +22,23 @@ class FireStrMtd {
     for (var uid in resp.keys) {
       MappingStore.mapping[uid] = resp[uid];
     }
+    data = await getColl('users').doc('dp').get();
+    if(data.data() == null)
+      {
+        return "Success";
+      }
+    resp = data.data()! as Map<String, dynamic>;
+    for (var uid in resp.keys) {
+      MappingStore.dp[uid] = resp[uid];
+    }
     return "Success";
+  }
+
+  updateDP(String dp)
+  async {
+    await getColl('users')
+        .doc('dp')
+        .set({UserStore.uid: dp}, SetOptions(merge: true));
   }
 
   createUser(

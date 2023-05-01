@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:splitwise/screens/friends/friend_detail.dart';
+import 'package:splitwise/stores/mapping_store.dart';
 import 'package:splitwise/stores/user_store.dart';
 
 import '../functions/email_to_uid.dart';
@@ -19,9 +20,12 @@ class FriendTile extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: ListTile(
-          leading: const CircleAvatar(
+          leading: MappingStore.dp[keyo] == null ?const CircleAvatar(
             radius: 30,
-            backgroundImage: NetworkImage('https://media.istockphoto.com/id/517188688/photo/mountain-landscape.jpg?s=612x612&w=0&k=20&c=A63koPKaCyIwQWOTFBRWXj_PwCrR4cEoOw2S9Q7yVl8='),
+            backgroundImage: AssetImage('assets/Images/profile.png'),
+          ): CircleAvatar(
+              radius: 30,
+              backgroundImage: NetworkImage(MappingStore.dp[keyo]!),
           ),
           trailing: getTrial(owes),
           title: Text(UIDN(keyo)),

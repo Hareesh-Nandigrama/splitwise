@@ -38,6 +38,7 @@ class ExpenseDetail extends StatelessWidget {
               ListTile(
                 leading: CircleAvatar(
                   radius: 30,
+                  backgroundColor: Colors.white,
                   child:  expmodel.type == 'Food' ? Image.asset('assets/Images/food.png') :
                   expmodel.type == 'Shopping' ? Image.asset('assets/Images/shopping.png') :
                   expmodel.type == 'Travel' ? Image.asset('assets/Images/car.png') :
