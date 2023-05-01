@@ -8,6 +8,7 @@ import '../../constants/colors.dart';
 import '../../firebase/firestore.dart';
 import '../../functions/email_to_uid.dart';
 import '../../functions/pop_up.dart';
+import '../../widgets/fields/drop_down.dart';
 import '../../widgets/fields/fields.dart';
 
 class NewGroupPage extends StatefulWidget {
@@ -20,8 +21,9 @@ class NewGroupPage extends StatefulWidget {
 
 class _NewGroupPageState extends State<NewGroupPage> {
   TextEditingController group = TextEditingController();
-  TextEditingController email = TextEditingController();
   List<String> people = [];
+  String? friend;
+
   @override
   Widget build(BuildContext context) {
     var commonStore = context.read<CommonStore>();
@@ -45,35 +47,50 @@ class _NewGroupPageState extends State<NewGroupPage> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   InField('Group Name', false, group, 0, 0),
-                  InField("Friend Email", false, email,0,0),
+                  SizedBox(
+                    width: 320,
+                    child: CustomDropDown(items: UserStore.getFriends(), hintText: 'Category', onChanged: (String val){
+                      setState(() {
+                        friend = val;
+                      });
+
+                    },
+                      value: friend,),
+                  ),
                   ElevatedButton(
                     onPressed: () async {
-                      if(email.text == '')
+                      if(friend == null)
                       {
                         popUp("Cannot be empty", context, 1, 500, Colors.red);
                         return;
                       }
-                      if(UserStore.friends.keys.contains(EUID(email.text)))
+                      String a = UIDE(NUID(friend!));
+                      if(a == '')
+                      {
+                        popUp("Cannot be empty", context, 1, 500, Colors.red);
+                        return;
+                      }
+                      if(UserStore.friends.keys.contains(EUID(a)))
                         {
-                          if(people.contains(email.text))
+                          if(people.contains(a))
                             {
                               popUp("Already Added", context, 1, 500, Colors.red);
-                              email.text = '';
+                              friend = null;
                             }
                           else
                             {
-                              people.add(email.text);
-                              setState(() {
-                                email.text = '';
-                              });
+                              people.add(a);
+                              friend = null;
                               popUp("Added", context, 1, 500, Colors.green);
                             }
                         }
                       else
                         {
-                          email.text = '';
+                         friend = null;
                           popUp("Not A Friend", context, 1, 500, Colors.red);
                         }
+                      setState(() {});
+
                     },
                     style: ElevatedButton.styleFrom(
                         minimumSize: const Size(320, 0),
