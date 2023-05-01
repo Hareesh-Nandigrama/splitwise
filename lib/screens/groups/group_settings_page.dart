@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import '../../functions/email_to_uid.dart';
 import '../../models/group_model.dart';
+import '../../stores/mapping_store.dart';
 
 class GroupSettingsPage extends StatefulWidget {
   final GroupModel model;
@@ -15,6 +17,38 @@ class _GroupSettingsPageState extends State<GroupSettingsPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Group Settings"),
+      ),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            children: [
+              const Text(
+                'Group Members',
+                style: TextStyle(fontSize: 15),
+              ),
+              for (var people in widget.model.balances.keys)
+                Padding(
+                  padding: const EdgeInsets.all(5.0),
+                  child: ListTile(
+                    title: Text(UIDN(people)),
+                    trailing: Text(UIDE(people)),
+                    leading: MappingStore.dp[people] == null
+                        ? const CircleAvatar(
+                            radius: 30,
+                            backgroundImage:
+                                AssetImage('assets/Images/profile.png'),
+                          )
+                        : CircleAvatar(
+                            radius: 30,
+                            backgroundImage:
+                                NetworkImage(MappingStore.dp[people]!),
+                          ),
+                  ),
+                )
+            ],
+          ),
+        ),
       ),
     );
   }
