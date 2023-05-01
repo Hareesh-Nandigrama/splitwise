@@ -106,6 +106,7 @@ class _AddExpensePageState extends State<AddExpensePage> {
           people.add(a);
           tmp[a] = TextEditingController();
           popUp("Added", context, 1, 500, Colors.green);
+          friend = null;
           setState(() {});
           return;
 
@@ -123,6 +124,7 @@ class _AddExpensePageState extends State<AddExpensePage> {
           people.add(a);
           tmp[a] = TextEditingController();
           popUp("Added", context, 1, 500, Colors.green);
+          friend = null;
           setState(() {});
           return;
         }
