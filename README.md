@@ -21,10 +21,11 @@ samples, guidance on mobile development, and a full API reference.
 
 1. [Clone this repository](https://github.com/Hareesh-Nandigrama/splitwise) this repository.
 2. After Cloning, open the project in android studio
-3. Create a new project on [Firebase Console](https://console.firebase.google.com/), activate Email SignIn in Firebase auth, and activate Firebase Firestore and Firebase Storage in **test mode**.
-4. Integrate firebase using the tutorial mentioned above to use your own database (Necessary step else the app wont work)
-5. Run `flutter pub get` to get the dependencies.
-6. Finally, run the app:
+3. Create a new project on [Firebase Console](https://console.firebase.google.com/)
+4. Activate Email SignIn in Firebase auth, and activate Firebase Firestore and Firebase Storage in **test mode**.
+5. Integrate firebase using the tutorial mentioned above to use your own database (Necessary step else the app wont work)
+6. Run `flutter pub get` to get the dependencies.
+7. Finally, run the app:
 
 ```
 flutter run
