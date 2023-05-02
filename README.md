@@ -33,5 +33,7 @@ flutter run
 ```
 flutter build apk --release
 ```
+You can find the apk in build/app/outputs/flutter-apk folder
+You can refer the following video for more [details](https://youtu.be/TOgfbyw6-Mw)
 
 # Latest apk version can be accessed from Releases section of the Repository.
