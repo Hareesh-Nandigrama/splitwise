@@ -29,5 +29,9 @@ samples, guidance on mobile development, and a full API reference.
 ```
 flutter run
 ```
+7. To build the apk of the app, you can use the following command
+```
+flutter flutter build apk --release
+```
 
 # Latest apk version can be accessed from Releases section of the Repository.
