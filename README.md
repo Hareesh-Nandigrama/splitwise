@@ -1,4 +1,4 @@
-# Catalogue
+# Splitwise
 
 Campus Splitwise
 
@@ -15,7 +15,7 @@ For help getting started with Flutter development, view the
 [online documentation](https://docs.flutter.dev/), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
 
-# Catalogue(Android App)
+# Splitwise (Android App)
 
 ## Setting up the project in your local environment💻
 
